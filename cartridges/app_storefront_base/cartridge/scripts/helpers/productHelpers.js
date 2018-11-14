@@ -337,7 +337,6 @@ function getResources() {
  * Renders the Product Details Page
  * @param {Object} querystring - query string parameters
  * @param {Object} reqPageMetaData - request pageMetaData object
- * @param {Object} res - response object
  * @returns {Object} contain information needed to render the product page
  */
 function showProductPage(querystring, reqPageMetaData) {
@@ -349,7 +348,7 @@ function showProductPage(querystring, reqPageMetaData) {
     var product = ProductFactory.get(params);
     var addToCartUrl = URLUtils.url('Cart-AddProduct');
     var breadcrumbs = getAllBreadcrumbs(null, product.id, []).reverse();
-    var template = 'product/productDetails';
+    var template = (product.template) ? product.template : 'product/productDetails';
 
     if (product.productType === 'bundle') {
         template = 'product/bundleDetails';

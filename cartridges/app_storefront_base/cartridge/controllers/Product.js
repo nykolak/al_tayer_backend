@@ -19,28 +19,35 @@ var pageMetaData = require('*/cartridge/scripts/middleware/pageMetaData');
 server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, function (req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var showProductPageHelperResult = productHelper.showProductPage(req.querystring, req.pageMetaData);
-
-    res.render(showProductPageHelperResult.template, {
-        product: showProductPageHelperResult.product,
-        addToCartUrl: showProductPageHelperResult.addToCartUrl,
-        resources: showProductPageHelperResult.resources,
-        breadcrumbs: showProductPageHelperResult.breadcrumbs
-    });
-
+    var productType = showProductPageHelperResult.product.productType;
+    if (!showProductPageHelperResult.product.online && productType !== 'set' && productType !== 'bundle') {
+        res.setStatusCode(404);
+        res.render('error/notFound');
+    } else {
+        res.render(showProductPageHelperResult.template, {
+            product: showProductPageHelperResult.product,
+            addToCartUrl: showProductPageHelperResult.addToCartUrl,
+            resources: showProductPageHelperResult.resources,
+            breadcrumbs: showProductPageHelperResult.breadcrumbs
+        });
+    }
     next();
 }, pageMetaData.computedPageMetaData);
 
 server.get('ShowInCategory', cache.applyPromotionSensitiveCache, function (req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var showProductPageHelperResult = productHelper.showProductPage(req.querystring, req.pageMetaData);
-
-    res.render(showProductPageHelperResult.template, {
-        product: showProductPageHelperResult.product,
-        addToCartUrl: showProductPageHelperResult.addToCartUrl,
-        resources: showProductPageHelperResult.resources,
-        breadcrumbs: showProductPageHelperResult.breadcrumbs
-    });
-
+    if (!showProductPageHelperResult.product.online) {
+        res.setStatusCode(404);
+        res.render('error/notFound');
+    } else {
+        res.render(showProductPageHelperResult.template, {
+            product: showProductPageHelperResult.product,
+            addToCartUrl: showProductPageHelperResult.addToCartUrl,
+            resources: showProductPageHelperResult.resources,
+            breadcrumbs: showProductPageHelperResult.breadcrumbs
+        });
+    }
     next();
 });
 
@@ -74,6 +81,7 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
     var URLUtils = require('dw/web/URLUtils');
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
+    var renderTemplateHelper = require('*/cartridge/scripts/renderTemplateHelper');
 
     var params = req.querystring;
     var product = ProductFactory.get(params);
@@ -82,10 +90,17 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
         ? 'product/setQuickView.isml'
         : 'product/quickView.isml';
 
-    res.render(template, {
+    var context = {
         product: product,
         addToCartUrl: addToCartUrl,
         resources: productHelper.getResources()
+    };
+
+    var renderedTemplate = renderTemplateHelper.getRenderedHtml(context, template);
+
+    res.json({
+        renderedTemplate: renderedTemplate,
+        productUrl: URLUtils.url('Product-Show', 'pid', product.id).relative().toString()
     });
 
     next();
