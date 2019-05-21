@@ -28,7 +28,9 @@ server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, 
             product: showProductPageHelperResult.product,
             addToCartUrl: showProductPageHelperResult.addToCartUrl,
             resources: showProductPageHelperResult.resources,
-            breadcrumbs: showProductPageHelperResult.breadcrumbs
+            breadcrumbs: showProductPageHelperResult.breadcrumbs,
+            canonicalUrl: showProductPageHelperResult.canonicalUrl,
+            schemaData: showProductPageHelperResult.schemaData
         });
     }
     next();
@@ -82,6 +84,7 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
     var renderTemplateHelper = require('*/cartridge/scripts/renderTemplateHelper');
+    var Resource = require('dw/web/Resource');
 
     var params = req.querystring;
     var product = ProductFactory.get(params);
@@ -93,14 +96,23 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
     var context = {
         product: product,
         addToCartUrl: addToCartUrl,
-        resources: productHelper.getResources()
+        resources: productHelper.getResources(),
+        quickViewFullDetailMsg: Resource.msg('link.quickview.viewdetails', 'product', null),
+        closeButtonText: Resource.msg('link.quickview.close', 'product', null),
+        enterDialogMessage: Resource.msg('msg.enter.quickview', 'product', null),
+        template: template
     };
 
-    var renderedTemplate = renderTemplateHelper.getRenderedHtml(context, template);
+    res.setViewData(context);
 
-    res.json({
-        renderedTemplate: renderedTemplate,
-        productUrl: URLUtils.url('Product-Show', 'pid', product.id).relative().toString()
+    this.on('route:BeforeComplete', function (req, res) { // eslint-disable-line no-shadow
+        var viewData = res.getViewData();
+        var renderedTemplate = renderTemplateHelper.getRenderedHtml(viewData, viewData.template);
+
+        res.json({
+            renderedTemplate: renderedTemplate,
+            productUrl: URLUtils.url('Product-Show', 'pid', viewData.product.id).relative().toString()
+        });
     });
 
     next();
@@ -123,7 +135,9 @@ server.get('SizeChart', function (req, res, next) {
 });
 
 server.get('ShowBonusProducts', function (req, res, next) {
+    var Resource = require('dw/web/Resource');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
+    var renderTemplateHelper = require('*/cartridge/scripts/renderTemplateHelper');
     var moreUrl = null;
     var pagingModel;
     var products = [];
@@ -204,14 +218,25 @@ server.get('ShowBonusProducts', function (req, res, next) {
         }
     }
 
-    var template = 'product/components/choiceOfBonusProducts/bonusProducts.isml';
-
-    res.render(template, {
+    var context = {
         products: products,
         selectedBonusProducts: selectedBonusProducts,
         maxPids: req.querystring.maxpids,
         moreUrl: moreUrl,
-        showMoreButton: showMoreButton
+        showMoreButton: showMoreButton,
+        closeButtonText: Resource.msg('link.choice.of.bonus.dialog.close', 'product', null),
+        enterDialogMessage: Resource.msg('msg.enter.choice.of.bonus.select.products', 'product', null),
+        template: 'product/components/choiceOfBonusProducts/bonusProducts.isml'
+    };
+
+    res.setViewData(context);
+
+    this.on('route:BeforeComplete', function (req, res) { // eslint-disable-line no-shadow
+        var viewData = res.getViewData();
+
+        res.json({
+            renderedTemplate: renderTemplateHelper.getRenderedHtml(viewData, viewData.template)
+        });
     });
 
     next();

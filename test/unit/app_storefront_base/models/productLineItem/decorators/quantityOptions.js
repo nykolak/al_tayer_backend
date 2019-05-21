@@ -4,7 +4,10 @@ var assert = require('chai').assert;
 var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 
 var quantityOptions = proxyquire('../../../../../../cartridges/app_storefront_base/cartridge/models/productLineItem/decorators/quantityOptions', {
-    'dw/catalog/ProductInventoryMgr': require('../../../../../mocks/dw/catalog/ProductInventoryMgr')
+    'dw/catalog/ProductInventoryMgr': require('../../../../../mocks/dw/catalog/ProductInventoryMgr'),
+    '*/cartridge/config/preferences': {
+        maxOrderQty: 10
+    }
 });
 
 describe('product line item quantity options decorator', function () {
@@ -39,6 +42,15 @@ describe('product line item quantity options decorator', function () {
 
             assert.equal(object.quantityOptions.minOrderQuantity, 1);
             assert.equal(object.quantityOptions.maxOrderQuantity, 5);
+        });
+
+        it('should handle perpetual inventory on the product', function () {
+            var object = {};
+            productLineItemMock.product.availabilityModel.inventoryRecord.perpetual = true;
+            quantityOptions(object, productLineItemMock, 1);
+
+            assert.equal(object.quantityOptions.minOrderQuantity, 1);
+            assert.equal(object.quantityOptions.maxOrderQuantity, 10);
         });
     });
 

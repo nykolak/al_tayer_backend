@@ -8,14 +8,9 @@ Storefront Reference Architecture supplies an [plugin_applepay](https://github.c
 Your feedback on the ease-of-use and limitations of this new architecture is invaluable during the developer preview. Particularly, feedback on any issues you encounter or workarounds you develop for efficiently customizing the base cartridge without editing it directly.
 
 
-# What's New
+# The latest version
 
-The latest version of SFRA is 3.2.0, which contains the following updates:
-
-* Multiship: a single basket filled with multiple products can now be shipped to multiple locations.
-* Fraud Detection Hook: a hook has been added that supports customized fraud detection.
-* Localization: several properties file resources were updated for French, Italian, Japanese, and Simplified Chinese.
-* SFRA and SGJC Data: a single sandbox can now simultaneously include sites for both SiteGenesis Javascript Controllers (SGJC) and Storefront Reference Architecture (SFRA) without any resulting data conflicts.
+The latest version of SFRA is 4.0.0
 
 # Getting Started
 
@@ -79,9 +74,9 @@ You can run `npm test` to execute all unit tests in the project. Run `npm run co
 3. Navigate to this directory on your local machine, open up the index.html file. This file contains a detailed report.
 
 ## Running integration tests
-Integration tests are located in the `sfra/test/integration` directory.
+Integration tests are located in the `storefront-reference-architecture/test/integration` directory.
 
-To run all integration tests you can use the following command:
+To run integration tests you can use the following command:
 
 ```
 npm run test:integration
@@ -90,33 +85,14 @@ npm run test:integration
 **Note:** Please note that short form of this command will try to locate URL of your sandbox by reading `dw.json` file in the root directory of your project. If you don't have `dw.json` file, integration tests will fail.
 sample dw.json file (this file needs to be in the root of your project)
 {
-    "hostname": "dev03-automation02-qa.demandware.net"
+    "hostname": "devxx-sitegenesis-dw.demandware.net"
 }
-
-```
-npm run test:integration test/integration/storeLocator
-```
 
 You can also supply URL of the sandbox on the command line:
 
 ```
-npm run test:integration -- --baseUrl https://hostname/on/demandware.store/Sites-RefArch-Site/en_US
+npm run test:integration -- --baseUrl devxx-sitegenesis-dw.demandware.net
 ```
-
-To run individual tests, such as the `test1.js` in the `storeLocator` subsuite:
-
-```
-npm run test:integration -- --baseUrl https://hostname/on/demandware.store/Sites-RefArch-Site/en_US test/integration/storeLocator/test1.js
-```
-
-To run tests in a subsuite, such as the storeLocator subsuite:
-
-```
-npm run test:integration -- --baseUrl https://hostname/on/demandware.store/Sites-RefArch-Site/en_US test/integration/storeLocator
-```
-
-
 
 # [Contributing to SFRA](./CONTRIBUTING.md)
-
 

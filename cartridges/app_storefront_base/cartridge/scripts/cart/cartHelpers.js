@@ -365,6 +365,7 @@ function addProductToCart(currentBasket, productId, quantity, childProducts, opt
             'error.alert.selected.quantity.cannot.be.added.for',
             'product',
             null,
+            product.availabilityModel.inventoryRecord.ATS.value,
             product.name
         );
         return result;
@@ -428,5 +429,6 @@ module.exports = {
     getMatchingProducts: getMatchingProducts,
     allBundleItemsSame: allBundleItemsSame,
     hasSameOptions: hasSameOptions,
-    BONUS_PRODUCTS_PAGE_SIZE: BONUS_PRODUCTS_PAGE_SIZE
+    BONUS_PRODUCTS_PAGE_SIZE: BONUS_PRODUCTS_PAGE_SIZE,
+    updateBundleProducts: updateBundleProducts
 };

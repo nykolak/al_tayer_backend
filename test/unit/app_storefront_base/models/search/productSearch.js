@@ -6,7 +6,7 @@ var sinon = require('sinon');
 var mockCollections = require('../../../../mocks/util/collections');
 
 describe('ProductSearch model', function () {
-    var endpointSearchShow = 'Search-Show';
+    var endpointSearchShow = 'Search-ShowAjax';
     var endpointSearchUpdateGrid = 'Search-UpdateGrid';
     var pluckValue = 'plucked';
     var spySetPageSize = sinon.spy();
@@ -57,7 +57,11 @@ describe('ProductSearch model', function () {
         'dw/web/URLUtils': {
             url: function (endpoint, param, value) { return [endpoint, param, value].join(' '); }
         },
-        'dw/web/PagingModel': stubPagingModel
+        'dw/web/PagingModel': stubPagingModel,
+        '*/cartridge/config/preferences': {
+            maxOrderQty: 10,
+            defaultPageSize: 12
+        }
     });
 
     var apiProductSearch;
