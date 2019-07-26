@@ -84,10 +84,10 @@ server.get(
         var OrderMgr = require('dw/order/OrderMgr');
         var OrderModel = require('*/cartridge/models/order');
         var Locale = require('dw/util/Locale');
-
         var order;
         var validForm = true;
-
+        var target = req.querystring.rurl || 1;
+        var actionUrl = URLUtils.url('Account-Login', 'rurl', target);
         var profileForm = server.forms.getForm('profile');
         profileForm.clear();
 
@@ -104,7 +104,8 @@ server.get(
                 navTabValue: 'login',
                 orderTrackFormError: validForm,
                 profileForm: profileForm,
-                userName: ''
+                userName: '',
+                actionUrl: actionUrl
             });
             next();
         } else {
@@ -152,7 +153,8 @@ server.get(
                     navTabValue: 'login',
                     profileForm: profileForm,
                     orderTrackFormError: !validForm,
-                    userName: ''
+                    userName: '',
+                    actionUrl: actionUrl
                 });
             }
 
@@ -367,7 +369,7 @@ server.post(
                     errorObj.error = true;
                     errorObj.errorMessage = e.authError
                         ? Resource.msg('error.message.unable.to.create.account', 'login', null)
-                        : Resource.msg('error.message.username.invalid', 'forms', null);
+                        : Resource.msg('error.message.account.create.error', 'forms', null);
                 }
 
                 if (errorObj.error) {
