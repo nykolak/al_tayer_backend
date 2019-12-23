@@ -100,7 +100,7 @@
                         </isif>
 
                         <!-- Product Availability -->
-                        <isinclude template="product/components/productAvailability" />
+                        <isinclude url="${pdict.availabilityUrl}" />
 
                         <!-- Applicable Promotions -->
                         <div class="row">

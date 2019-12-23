@@ -74,6 +74,12 @@ module.exports = {
             $('div.availability', response.$productContainer)
                 .data('ready-to-order', response.product.readyToOrder)
                 .data('available', response.product.available);
+            var addToCartBtn = $('.add-to-cart', response.$productContainer);
+            if (!response.product.readyToOrder || !response.product.available) {
+                addToCartBtn.prop('disabled', true);
+            } else {
+                addToCartBtn.prop('disabled', false);
+            }
 
             $('.availability-msg', response.$productContainer)
                 .empty().html(response.message);
@@ -135,5 +141,14 @@ module.exports = {
         });
     },
 
-    focusChooseBonusProductModal: base.focusChooseBonusProductModal()
+    focusChooseBonusProductModal: base.focusChooseBonusProductModal(),
+    getAvailability: function () {
+        var readyToOrder = $('.product-availability').data('ready-to-order');
+        var available = $('.product-availability').data('available');
+        if (!readyToOrder || !available) {
+            $('.add-to-cart').prop('disabled', true);
+        } else {
+            $('.add-to-cart').prop('disabled', false);
+        }
+    }
 };
