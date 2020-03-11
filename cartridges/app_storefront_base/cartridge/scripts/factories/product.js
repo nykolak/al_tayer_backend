@@ -18,18 +18,21 @@ var bundleOrderLineItem = require('*/cartridge/models/productLineItem/bundleOrde
 module.exports = {
     get: function (params) {
         var productId = params.pid;
-        var product = Object.create(null);
         var apiProduct = ProductMgr.getProduct(productId);
-        if (apiProduct === null) {
-            return product;
-        }
         var productType = productHelper.getProductType(apiProduct);
+        var product = Object.create(null);
         var options = null;
         var promotions;
 
         switch (params.pview) {
             case 'tile':
-                product = productTile(product, apiProduct, productType);
+                promotions = PromotionMgr.activeCustomerPromotions.getProductPromotions(apiProduct);
+                var optionsModel = productHelper.getCurrentOptionModel(apiProduct.optionModel, params.options);
+                options = {
+                    optionModel: optionsModel,	
+                    promotions: promotions
+                };
+                product = productTile(product, apiProduct, productType, options);
                 break;
             case 'bonusProductLineItem':
                 promotions = PromotionMgr.activeCustomerPromotions.getProductPromotions(apiProduct);

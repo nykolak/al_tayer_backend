@@ -37,17 +37,14 @@ function getProductSearchHit(apiProduct) {
  *
  * @returns {Object} - Decorated product model
  */
-module.exports = function productTile(product, apiProduct, productType) {
+module.exports = function productTile(product, apiProduct, productType, options) {
     var productSearchHit = getProductSearchHit(apiProduct);
     decorators.base(product, apiProduct, productType);
-    decorators.searchPrice(product, productSearchHit, promotionCache.promotions, getProductSearchHit);
+    //decorators.searchPrice(product, productSearchHit, promotionCache.promotions, getProductSearchHit);
     decorators.images(product, apiProduct, { types: ['medium'], quantity: 'single' });
     decorators.ratings(product);
-    if (productType === 'set') {
-        decorators.setProductsCollection(product, apiProduct);
-    }
-
     decorators.searchVariationAttributes(product, productSearchHit);
-
+    decorators.promotions(product, options.promotions);
+    decorators.price(product, apiProduct, options.promotions, false, options.optionModel);
     return product;
 };
