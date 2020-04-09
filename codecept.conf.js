@@ -6,9 +6,10 @@ const cwd = process.cwd();
 const path = require('path');
 const fs = require('fs');
 
+const metadata = require('./test/acceptance/metadata.json');
+
 const RELATIVE_PATH = './test/acceptance';
 const OUTPUT_PATH = RELATIVE_PATH + '/report';
-
 
 function getDwJson() {
     if (fs.existsSync(path.join(cwd, 'dw.json'))) {
@@ -17,34 +18,33 @@ function getDwJson() {
     return {};
 }
 
-const DEFAULT_HOST = getDwJson().hostname;
+const SAUCE_USER = getDwJson().sauce_username || process.env.SAUCE_USERNAME;
+const SAUCE_KEY = getDwJson().sauce_key || process.env.SAUCE_KEY;
+
+const DEFAULT_HOST = 'https://' + getDwJson().hostname;
 const HOST = DEFAULT_HOST || process.env.HOST;
 
-const metadata = require('./test/acceptance/metadata.json');
-
-const SAUCE_USER = process.env.SAUCE_USERNAME;
-const SAUCE_KEY = process.env.SAUCE_KEY;
+// Here is where you can target specific browsers/configuration to run on sauce labs.
 const userSpecificBrowsers = {
-    firefox: {
-        capabilities: {
-            'sauce:options': {
-                seleniumVersion: '3.11.0'
-            },
-        }
-    },
-    edge: {
-        capabilities: {
-            'sauce:options': {
-                seleniumVersion: '3.11.0'
+    phone: {
+        browser: 'chrome',
+        desiredCapabilities: {
+            chromeOptions: {
+                mobileEmulation: {
+                    deviceName: "iPhone X"
+                }
             }
         }
     },
-    safari: {
-        capabilities: {
-            'sauce:options': {
-                seleniumVersion: '3.11.0'
+    tablet: {
+        browser: 'chrome',
+        desiredCapabilities: {
+            chromeOptions: {
+              mobileEmulation: {
+                deviceName: "Kindle Fire HDX"
+              }
             }
-        }
+          }
     }
 }
 
@@ -77,4 +77,4 @@ let conf = {
     name: 'storefront-reference-architecture'
 };
 
-exports.config = merge(merge(conf, codeceptjsShared.conf), codeceptJsSauce.conf(SAUCE_USER, SAUCE_KEY, userSpecificBrowsers));
+exports.config = merge(merge(conf, codeceptjsShared.config.master), codeceptJsSauce.config.saucelabs(SAUCE_USER, SAUCE_KEY, userSpecificBrowsers));

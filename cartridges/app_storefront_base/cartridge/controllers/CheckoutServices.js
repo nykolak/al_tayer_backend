@@ -11,9 +11,19 @@ server.get('Get', server.middleware.https, function (req, res, next) {
     var OrderModel = require('*/cartridge/models/order');
     var Locale = require('dw/util/Locale');
     var Resource = require('dw/web/Resource');
+    var URLUtils = require('dw/web/URLUtils');
     var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
 
     var currentBasket = BasketMgr.getCurrentBasket();
+    if (!currentBasket) {
+        res.json({
+            redirectUrl: URLUtils.url('Cart-Show').toString(),
+            error: true
+        });
+
+        return next();
+    }
+
     var usingMultiShipping = req.session.privacyCache.get('usingMultiShipping');
     if (usingMultiShipping === true && currentBasket.shipments.length < 2) {
         req.session.privacyCache.set('usingMultiShipping', false);
@@ -34,7 +44,7 @@ server.get('Get', server.middleware.https, function (req, res, next) {
         message: allValid ? '' : Resource.msg('error.message.shipping.addresses', 'checkout', null)
     });
 
-    next();
+    return next();
 });
 
 /**
@@ -130,7 +140,6 @@ server.post(
             var BasketMgr = require('dw/order/BasketMgr');
             var HookMgr = require('dw/system/HookMgr');
             var PaymentMgr = require('dw/order/PaymentMgr');
-            var PaymentInstrument = require('dw/order/PaymentInstrument');
             var Transaction = require('dw/system/Transaction');
             var AccountModel = require('*/cartridge/models/account');
             var OrderModel = require('*/cartridge/models/order');
@@ -141,11 +150,24 @@ server.post(
             var validationHelpers = require('*/cartridge/scripts/helpers/basketValidationHelpers');
 
             var currentBasket = BasketMgr.getCurrentBasket();
-            var validatedProducts = validationHelpers.validateProducts(currentBasket);
 
             var billingData = res.getViewData();
 
-            if (!currentBasket || validatedProducts.error) {
+            if (!currentBasket) {
+                delete billingData.paymentInformation;
+
+                res.json({
+                    error: true,
+                    cartError: true,
+                    fieldErrors: [],
+                    serverErrors: [],
+                    redirectUrl: URLUtils.url('Cart-Show').toString()
+                });
+                return;
+            }
+
+            var validatedProducts = validationHelpers.validateProducts(currentBasket);
+            if (validatedProducts.error) {
                 delete billingData.paymentInformation;
 
                 res.json({
@@ -209,31 +231,10 @@ server.post(
                 return;
             }
 
-            // Validate payment instrument
-            var creditCardPaymentMethod = PaymentMgr.getPaymentMethod(PaymentInstrument.METHOD_CREDIT_CARD);
-            var paymentCard = PaymentMgr.getPaymentCard(billingData.paymentInformation.cardType.value);
-
-            var applicablePaymentCards = creditCardPaymentMethod.getApplicablePaymentCards(
-                req.currentCustomer.raw,
-                req.geolocation.countryCode,
-                null
-            );
-
-            if (!applicablePaymentCards.contains(paymentCard)) {
-                // Invalid Payment Instrument
-                var invalidPaymentMethod = Resource.msg('error.payment.not.valid', 'checkout', null);
-                delete billingData.paymentInformation;
-                res.json({
-                    form: billingForm,
-                    fieldErrors: [],
-                    serverErrors: [invalidPaymentMethod],
-                    error: true
-                });
-                return;
-            }
+            var processor = PaymentMgr.getPaymentMethod(paymentMethodID).getPaymentProcessor();
 
             // check to make sure there is a payment processor
-            if (!PaymentMgr.getPaymentMethod(paymentMethodID).paymentProcessor) {
+            if (!processor) {
                 throw new Error(Resource.msg(
                     'error.payment.processor.missing',
                     'checkout',
@@ -241,13 +242,13 @@ server.post(
                 ));
             }
 
-            var processor = PaymentMgr.getPaymentMethod(paymentMethodID).getPaymentProcessor();
-
             if (HookMgr.hasHook('app.payment.processor.' + processor.ID.toLowerCase())) {
                 result = HookMgr.callHook('app.payment.processor.' + processor.ID.toLowerCase(),
                     'Handle',
                     currentBasket,
-                    billingData.paymentInformation
+                    billingData.paymentInformation,
+                    paymentMethodID,
+                    req
                 );
             } else {
                 result = HookMgr.callHook('app.payment.processor.default', 'Handle');
@@ -344,11 +345,23 @@ server.post('PlaceOrder', server.middleware.https, function (req, res, next) {
     var hooksHelper = require('*/cartridge/scripts/helpers/hooks');
     var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
     var validationHelpers = require('*/cartridge/scripts/helpers/basketValidationHelpers');
+    var addressHelpers = require('*/cartridge/scripts/helpers/addressHelpers');
 
     var currentBasket = BasketMgr.getCurrentBasket();
-    var validatedProducts = validationHelpers.validateProducts(currentBasket);
 
-    if (!currentBasket || validatedProducts.error) {
+    if (!currentBasket) {
+        res.json({
+            error: true,
+            cartError: true,
+            fieldErrors: [],
+            serverErrors: [],
+            redirectUrl: URLUtils.url('Cart-Show').toString()
+        });
+        return next();
+    }
+
+    var validatedProducts = validationHelpers.validateProducts(currentBasket);
+    if (validatedProducts.error) {
         res.json({
             error: true,
             cartError: true,
@@ -456,7 +469,7 @@ server.post('PlaceOrder', server.middleware.https, function (req, res, next) {
 
     var fraudDetectionStatus = hooksHelper('app.fraud.detection', 'fraudDetection', currentBasket, require('*/cartridge/scripts/hooks/fraudDetection').fraudDetection);
     if (fraudDetectionStatus.status === 'fail') {
-        Transaction.wrap(function () { OrderMgr.failOrder(order); });
+        Transaction.wrap(function () { OrderMgr.failOrder(order, true); });
 
         // fraud detection failed
         req.session.privacyCache.set('fraudDetectionStatus', true);
@@ -481,7 +494,19 @@ server.post('PlaceOrder', server.middleware.https, function (req, res, next) {
         return next();
     }
 
-    COHelpers.sendConfirmationEmail(order, req.locale.id);
+    if (req.currentCustomer.addressBook) {
+        // save all used shipping addresses to address book of the logged in customer
+        var allAddresses = addressHelpers.gatherShippingAddresses(order);
+        allAddresses.forEach(function (address) {
+            if (!addressHelpers.checkIfAddressStored(address, req.currentCustomer.addressBook.addresses)) {
+                addressHelpers.saveAddress(address, req.currentCustomer, addressHelpers.generateAddressName(address));
+            }
+        });
+    }
+
+    if (order.getCustomerEmail()) {
+        COHelpers.sendConfirmationEmail(order, req.locale.id);
+    }
 
     // Reset usingMultiShip after successful Order placement
     req.session.privacyCache.set('usingMultiShipping', false);

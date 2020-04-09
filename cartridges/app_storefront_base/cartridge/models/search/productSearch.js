@@ -46,6 +46,7 @@ function getRefinements(productSearch, refinements, refinementDefinitions) {
             isCategoryRefinement: definition.categoryRefinement,
             isAttributeRefinement: definition.attributeRefinement,
             isPriceRefinement: definition.priceRefinement,
+            isPromotionRefinement: definition.promotionRefinement,
             values: values
         };
     });
@@ -131,7 +132,7 @@ function getShowMoreUrl(productSearch, httpParams) {
         currentStart
     );
 
-    if (pageSize > hitsCount) {
+    if (pageSize >= hitsCount) {
         return '';
     } else if (pageSize > DEFAULT_PAGE_SIZE) {
         nextStart = pageSize;

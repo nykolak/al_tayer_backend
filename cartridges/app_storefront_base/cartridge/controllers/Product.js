@@ -62,7 +62,11 @@ server.get('Variation', function (req, res, next) {
     var params = req.querystring;
     var product = ProductFactory.get(params);
 
-    product.price.html = priceHelper.renderHtml(priceHelper.getHtmlContext(product.price));
+    var context = {
+        price: product.price
+    };
+
+    product.price.html = priceHelper.renderHtml(priceHelper.getHtmlContext(context));
 
     var attributeContext = { product: { attributes: product.attributes } };
     var attributeTemplate = 'product/components/attributesPre';
@@ -77,6 +81,14 @@ server.get('Variation', function (req, res, next) {
     product.promotionsHtml = renderTemplateHelper.getRenderedHtml(
         promotionsContext,
         promotionsTemplate
+    );
+
+    var optionsContext = { product: { options: product.options } };
+    var optionsTemplate = 'product/components/options';
+
+    product.optionsHtml = renderTemplateHelper.getRenderedHtml(
+        optionsContext,
+        optionsTemplate
     );
 
     res.json({

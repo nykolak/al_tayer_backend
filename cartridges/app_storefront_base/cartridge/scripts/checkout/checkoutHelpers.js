@@ -369,10 +369,19 @@ function calculatePaymentTransaction(currentBasket) {
     var result = { error: false };
 
     try {
+        // TODO: This function will need to account for gift certificates at a later date
         Transaction.wrap(function () {
-            // TODO: This function will need to account for gift certificates at a later date
+            var paymentInstruments = currentBasket.paymentInstruments;
+
+            if (!paymentInstruments.length) {
+                return;
+            }
+
+            // Assuming that there is only one payment instrument used for the total order amount.
+            // TODO: Will have to rewrite this logic once we start supporting multiple payment instruments for same order
             var orderTotal = currentBasket.totalGrossPrice;
-            var paymentInstrument = currentBasket.paymentInstrument;
+            var paymentInstrument = paymentInstruments[0];
+
             paymentInstrument.paymentTransaction.setAmount(orderTotal);
         });
     } catch (e) {
@@ -474,7 +483,7 @@ function handlePayments(order, orderNumber) {
         var paymentInstruments = order.paymentInstruments;
 
         if (paymentInstruments.length === 0) {
-            Transaction.wrap(function () { OrderMgr.failOrder(order); });
+            Transaction.wrap(function () { OrderMgr.failOrder(order, true); });
             result.error = true;
         }
 
@@ -507,7 +516,7 @@ function handlePayments(order, orderNumber) {
                     }
 
                     if (authorizationResult.error) {
-                        Transaction.wrap(function () { OrderMgr.failOrder(order); });
+                        Transaction.wrap(function () { OrderMgr.failOrder(order, true); });
                         result.error = true;
                         break;
                     }
@@ -539,7 +548,7 @@ function sendConfirmationEmail(order, locale) {
     var emailObj = {
         to: order.customerEmail,
         subject: Resource.msg('subject.order.confirmation.email', 'order', null),
-        from: Site.current.getCustomPreferenceValue('customerServiceEmail') || 'no-reply@salesforce.com',
+        from: Site.current.getCustomPreferenceValue('customerServiceEmail') || 'no-reply@testorganization.com',
         type: emailHelpers.emailTypes.orderConfirmation
     };
 
@@ -571,7 +580,7 @@ function placeOrder(order, fraudDetectionStatus) {
         order.setExportStatus(Order.EXPORT_STATUS_READY);
         Transaction.commit();
     } catch (e) {
-        Transaction.wrap(function () { OrderMgr.failOrder(order); });
+        Transaction.wrap(function () { OrderMgr.failOrder(order, true); });
         result.error = true;
     }
 

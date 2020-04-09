@@ -53,7 +53,16 @@ server.get(
 
         var reportingURLs = reportingUrlsHelper.getOrderReportingURLs(order);
 
-        if (!req.currentCustomer.profile) {
+        var CustomerMgr = require('dw/customer/CustomerMgr');
+        var profile = CustomerMgr.searchProfile('email={0}', orderModel.orderEmail);
+        if (profile) {
+            var Transaction = require('dw/system/Transaction');
+            Transaction.wrap(function () {
+                order.setCustomer(profile.getCustomer());
+            });
+        }
+
+        if (!req.currentCustomer.profile && !profile) {
             passwordForm = server.forms.getForm('newPasswords');
             passwordForm.clear();
             res.render('checkout/confirmation/confirmation', {
@@ -74,7 +83,7 @@ server.get(
     }
 );
 
-server.get(
+server.post(
     'Track',
     consentTracking.consent,
     server.middleware.https,
@@ -91,10 +100,10 @@ server.get(
         var profileForm = server.forms.getForm('profile');
         profileForm.clear();
 
-        if (req.querystring.trackOrderEmail
-            && req.querystring.trackOrderPostal
-            && req.querystring.trackOrderNumber) {
-            order = OrderMgr.getOrder(req.querystring.trackOrderNumber);
+        if (req.form.trackOrderEmail
+            && req.form.trackOrderPostal
+            && req.form.trackOrderNumber) {
+            order = OrderMgr.getOrder(req.form.trackOrderNumber);
         } else {
             validForm = false;
         }
@@ -121,12 +130,12 @@ server.get(
             );
 
             // check the email and postal code of the form
-            if (req.querystring.trackOrderEmail.toLowerCase()
+            if (req.form.trackOrderEmail.toLowerCase()
                     !== orderModel.orderEmail.toLowerCase()) {
                 validForm = false;
             }
 
-            if (req.querystring.trackOrderPostal
+            if (req.form.trackOrderPostal
                 !== orderModel.billing.billingAddress.address.postalCode) {
                 validForm = false;
             }
@@ -323,6 +332,7 @@ server.post(
                 var CustomerMgr = require('dw/customer/CustomerMgr');
                 var Transaction = require('dw/system/Transaction');
                 var accountHelpers = require('*/cartridge/scripts/helpers/accountHelpers');
+                var addressHelpers = require('*/cartridge/scripts/helpers/addressHelpers');
 
                 var registrationData = res.getViewData();
 
@@ -363,6 +373,12 @@ server.post(
                             newCustomerProfile.email = login;
 
                             order.setCustomer(newCustomer);
+
+                            // save all used shipping addresses to address book of the logged in customer
+                            var allAddresses = addressHelpers.gatherShippingAddresses(order);
+                            allAddresses.forEach(function (address) {
+                                addressHelpers.saveAddress(address, { raw: newCustomer }, addressHelpers.generateAddressName(address));
+                            });
                         }
                     });
                 } catch (e) {

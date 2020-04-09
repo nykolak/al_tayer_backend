@@ -811,16 +811,14 @@ module.exports = {
             var shipmentUUID = selectedOption[0].value;
             var originalUUID = $('input[name=shipmentUUID]', form).val();
             var element;
-
             Object.keys(attrs).forEach(function (attr) {
                 element = attr === 'countryCode' ? 'country' : attr;
                 $('[name$=' + element + ']', form).val(attrs[attr]);
             });
-
             $('[name$=stateCode]', form).trigger('change');
-
             if (shipmentUUID === 'new') {
                 $(form).attr('data-address-mode', 'new');
+                $(form).find('.shipping-address-block').removeClass('d-none');
             } else if (shipmentUUID === originalUUID) {
                 $(form).attr('data-address-mode', 'shipment');
             } else if (shipmentUUID.indexOf('ab_') === 0) {
@@ -1019,6 +1017,8 @@ module.exports = {
                             $.each(response.serverErrors, function (index, element) {
                                 createErrorNotification(element);
                             });
+                        } else if (response.redirectUrl) {
+                            window.location.href = response.redirectUrl;
                         }
                     } else {
                         // Update UI from response

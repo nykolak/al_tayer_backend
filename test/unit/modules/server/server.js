@@ -61,7 +61,15 @@ describe('server', function () {
     beforeEach(function () {
         server = proxyquire('../../../../cartridges/modules/server/server', {
             './render': render,
-            './request': request
+            './request': request,
+            './response': require('../../../mocks/modules/responseMock'),
+            'dw/system/HookMgr': {
+                hasHook: function (/* extension */) {
+                    return true;
+                },
+                callHook: function (/* extensionPoint, functionName , args */) {
+                }
+            }
         });
     });
 

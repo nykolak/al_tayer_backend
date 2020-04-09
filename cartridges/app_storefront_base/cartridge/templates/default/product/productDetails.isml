@@ -10,11 +10,10 @@
     <isset name="isQuickView" value="${false}" scope="page" />
     <isset name="isProductSet" value="${pdict.product.productType === 'set'}" scope="page" />
     <isobject object="${product.raw}" view="detail" />
-        <div class="container product-detail product-wrapper"
-            data-pid="${product.id}">
+        <div class="container product-detail product-wrapper" data-pid="${product.id}">
             <div class="row">
                 <div class="col-12">
-                    <!---Breadcrumbs--->
+                    <!--Breadcrumbs-->
                     <div class="product-breadcrumb d-md-none">
                         <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
                     </div>
@@ -33,7 +32,7 @@
                 <isinclude template="product/components/imageCarousel" />
 
                 <div class="col-12 col-sm-6">
-                    <!---Breadcrumbs--->
+                    <!--Breadcrumbs-->
                     <div class="row">
                         <div class="product-breadcrumb col hidden-sm-down">
                             <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
@@ -66,7 +65,7 @@
                                     <isinclude template="product/components/variationAttribute" />
                                 </div>
 
-                                <isif condition="${attributeStatus.last && !isBundle && product.options.length === 0}">
+                                <isif condition="${attributeStatus.last && !isBundle}">
                                     <!-- Quantity Drop Down Menu -->
                                     <div class="attribute quantity col-4">
                                         <isinclude template="product/components/quantity" />
@@ -75,7 +74,7 @@
                             </div>
                         </isloop>
 
-                        <isif condition="${!product.variationAttributes && product.options.length === 0}">
+                        <isif condition="${!product.variationAttributes}">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="simple-quantity">
@@ -85,10 +84,11 @@
                             </div>
                         </isif>
 
-
-                        <isif condition="${product.options && product.options.length > 0}">
+                        <div class="product-options">
+                            <isif condition="${product.options && product.options.length > 0}">
                                 <isinclude template="product/components/options" />
-                        </isif>
+                            </isif>
+                        </div>
 
                         <!-- Size Chart -->
                         <isif condition="${product.variationAttributes && product.sizeChartId}">
@@ -131,11 +131,16 @@
                     </div>
                 </div>
             </div>
+
+            <div>
+                <isslot id="cts-recommendations-m" description="Complete the set products" context="global" context-object="${pdict.product.raw}" />
+            </div>
+
             <isset name="loopState" value="{count: 1}" scope="page" />
             <isinclude template="product/components/descriptionAndDetails" />
 
             <div class="recommendations">
-                <isslot id="product-recommendations-m" description="Recommended products" context="global" />
+                <isslot id="product-recommendations-m" description="Recommended products" context="global" context-object="${pdict.product.raw}" />
             </div>
         </div>
     </isobject>

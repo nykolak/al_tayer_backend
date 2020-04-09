@@ -2,50 +2,85 @@ const I = actor();
 
 module.exports = {
     locators: {
-        lineItemName: 'div.line-item-name',
+        lineItemQuantity: '.form-control.quantity.custom-select',
+        totalItemQuantity: 'h2.number-of-items',
+        lineItemPriceTotal: 'span.value',
+        totalItemPrice: '.line-item-total-price',
+        shippingCost: '.text-right.shipping-cost',
+        taxTotal: '.text-right.tax-total',
+        estimatedTotal: '.text-right.grand-total',
+        cartIcon: '.minicart-icon.fa.fa-shopping-bag',
         checkoutBtn: '.btn.btn-primary.btn-block.checkout-btn',
-        checkoutAsGuestBtn: '.btn.btn-block.btn-primary.checkout-as-guest',
-        fName: '.form-control.shippingFirstName',
-        lName: '.form-control.shippingLastName',
-        address1: '.form-control.shippingAddressOne',
-        address2: '.form-control.shippingAddressTwo',
-        country: '.form-control.shippingCountry',
-        state: '.form-control.shippingState',
-        city: '.form-control.shippingAddressCity',
-        zip: '.form-control.shippingZipCode',
-        phone: '.form-control.shippingPhoneNumber',
-        toPayment: '.btn.btn-primary.btn-block.submit-shipping',
-        payEmail: '#email.form-control.email',
-        payPhone: '#phoneNumber',
-        payCard: '#cardNumber',
-        payExpMonth: '#expirationMonth',
-        payExpYear: '#expirationYear',
-        paySecCode: '#securityCode',
-        placeOrder: '.btn.btn-primary.btn-block.submit-payment',
-        confirmOrder: '.btn.btn-primary.btn-block.place-order'
+        removeProductBox: '.hidden-md-down',
+        removeProductBtn: '.remove-btn-lg.remove-product.btn.btn-light',
+        removeProductModal: '.modal-content',
+        removeProductModalConfirm: '.btn.btn-primary.cart-delete-confirmation-btn',
+        editQuantitySelector: '.form-control.quantity.custom-select',
+        miniCartEditQty: 'select[data-pid="<pid>"]',
+        lineItemName: '.line-item-name',
+        miniCartLineItemName: '.line-item-name > span',
+        lineItemAttributes: '.item-attributes .line-item-attributes',
+        subTotal: '.text-right.sub-total',
+        removeProductButton: '.remove-btn.remove-product',
+        removeFromMiniCartButton: 'button[data-pid="<pid>"]',
+        miniCartQuantity: '.minicart-quantity',
+        miniCartPopover: '.popover.popover-bottom.show'
     },
-    fillShippingInfo(fName, lName, address1, address2, country, state, city, zipcode, phone) {
-        I.fillField(this.locators.fName, fName);
-        I.fillField(this.locators.lName, lName);
-        I.fillField(this.locators.address1, address1);
-        I.fillField(this.locators.address2, address2);
-        I.waitForElement(this.locators.country);
-        I.selectOption(this.locators.country, country);
-        I.waitForElement(this.locators.state);
-        I.selectOption(this.locators.state, state);
-        I.wait(3);
-        I.fillField(this.locators.city, city);
-        I.fillField(this.locators.phone, phone);
-        I.fillField(this.locators.zip, zipcode);
+    verifyCart(totalQuantity, itemPrice, totalItemPrice, shipping, tax, estimatedTotal) {
+        I.see(totalQuantity, this.locators.lineItemQuantity);
+        I.see(itemPrice, this.locators.lineItemPriceTotal);
+        I.see(totalItemPrice, this.locators.totalItemPrice);
+        I.see(shipping, this.locators.shippingCost);
+        I.see(tax, this.locators.taxTotal);
+        I.see(estimatedTotal, this.locators.estimatedTotal);
     },
-    fillPaymentInfo(email, phone, ccNum, expMonth, expYear, ccSecCode) {
-        I.fillField(this.locators.payEmail, email);
-        I.fillField(this.locators.payPhone, phone);
-        I.fillField(this.locators.payCard, ccNum);
-        I.waitForElement(this.locators.payExpMonth, expMonth);
-        I.selectOption(this.locators.payExpMonth, expMonth);
-        I.waitForElement(this.locators.payExpYear, expYear);
-        I.selectOption(this.locators.payExpYear, expYear);
-        I.fillField(this.locators.paySecCode, ccSecCode);
+    verifyCartQuantity(totalQuantity) {
+        I.see(totalQuantity + ' Items', this.locators.totalItemQuantity);
+    },
+    verifyMiniCartOriginal(product) {
+        I.scrollPageToTop();
+        I.executeScript(function (el) { $(el).trigger('touchstart'); }, this.locators.cartIcon);
+        this.verifyMiniCart(product);
+        I.see(product.originalQuantity, this.locators.lineItemQuantity);
+        I.see(product.originalPrice, this.locators.subTotal);
+    },
+    verifyMiniCartUpdated(product) {
+        this.verifyMiniCart(product);
+        I.see(product.finalQuantity, this.locators.lineItemQuantity);
+        I.see(product.finalPrice, this.locators.subTotal);
+    },
+    verifyMiniCart(product) {
+        I.see(product.name, this.locators.miniCartLineItemName);
+        I.see(product.colorAttribute, this.locators.lineItemAttributes);
+        I.see(product.sizeAttribute, this.locators.lineItemAttributes);
+        I.see(product.availability, this.locators.lineItemAttributes);
+    },
+    removeProductFromMiniCart(product) {
+        I.scrollPageToTop();
+        I.executeScript(function (el) { $(el).trigger('touchstart'); }, this.locators.cartIcon);
+        I.click(this.locators.removeFromMiniCartButton.replace('<pid>', product.pid));
+        // Confirm remove product
+        within(this.locators.removeProductModal, () => {
+            I.click(this.locators.removeProductModalConfirm);
+        });
+    },
+    removeProduct(productName) {
+        // Click x to remove product
+        let locator = locate(this.locators.removeProductBox)
+            .find(this.locators.removeProductBtn)
+            .withAttr({ 'data-name': productName });
+        I.click(locator);
+        // Confirm remove product
+        within(this.locators.removeProductModal, () => {
+            I.click(this.locators.removeProductModalConfirm);
+        });
+    },
+    editQuantity(quantity) {
+        I.selectOption(this.locators.editQuantitySelector, quantity);
+    },
+    editMiniCartQuantity(product) {
+        within(this.locators.miniCartPopover, () => {
+            I.selectOption(this.locators.miniCartEditQty.replace('<pid>', product.pid), product.editQuantity);
+        });
     }
 };

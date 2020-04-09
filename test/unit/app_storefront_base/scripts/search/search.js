@@ -29,18 +29,20 @@ describe('search script', function () {
         var mockProductSearch = {
             setSearchPhrase: function () {},
             setCategoryID: function () {},
-            setProductID: function () {},
+            setProductIDs: function () {},
             setPriceMin: function () {},
             setPriceMax: function () {},
             setSortingRule: function () {},
-            setRecursiveCategorySearch: function () {}
+            setRecursiveCategorySearch: function () {},
+            setPromotionID: function () {}
         };
         var mockParams = {
             q: 'toasters galore',
             cgid: { ID: 'abc' },
             pid: 'Product123',
             pmin: '15',
-            pmax: '37'
+            pmax: '37',
+            pmid: 'Buy5for50'
         };
         var mockSelectedCategory = {
             ID: 123
@@ -49,10 +51,11 @@ describe('search script', function () {
 
         var spySetSearchPhrase = sinon.spy(mockProductSearch, 'setSearchPhrase');
         var spySetCategoryID = sinon.spy(mockProductSearch, 'setCategoryID');
-        var spySetProductID = sinon.spy(mockProductSearch, 'setProductID');
+        var spySetProductIDs = sinon.spy(mockProductSearch, 'setProductIDs');
         var spySetPriceMin = sinon.spy(mockProductSearch, 'setPriceMin');
         var spySetPriceMax = sinon.spy(mockProductSearch, 'setPriceMax');
         var spySetSortingRule = sinon.spy(mockProductSearch, 'setSortingRule');
+        var spySetPromotionID = sinon.spy(mockProductSearch, 'setPromotionID');
         var spySetRecursiveCategorySearch = sinon.spy(mockProductSearch,
             'setRecursiveCategorySearch');
 
@@ -76,7 +79,7 @@ describe('search script', function () {
         });
 
         it('should set the product ID', function () {
-            assert.isTrue(spySetProductID.calledWith(mockParams.pid));
+            assert.isTrue(spySetProductIDs.calledWith([mockParams.pid]));
         });
 
         it('should set the minimum price', function () {
@@ -93,6 +96,10 @@ describe('search script', function () {
 
         it('should set category search to be recursive', function () {
             assert.isTrue(spySetRecursiveCategorySearch.calledWith(true));
+        });
+
+        it('should set the promotion refinement', function () {
+            assert.isTrue(spySetPromotionID.calledWith(mockParams.pmid));
         });
     });
 });
