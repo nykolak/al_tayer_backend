@@ -18,9 +18,11 @@ The latest version of SFRA is 4.4.1
 
 2. Run `npm install` to install all of the local dependencies (node version 8.x or current LTS release recommended)
 
-3. Run `npm run compile:js` from the command line that would compile all client-side JS files. Run `npm run compile:scss` and `npm run compile:fonts` that would do the same for css and fonts.
+3. Copy `webpackHandling/example_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
 
-4. Create `dw.json` file in the root of the project:
+4. Run `npm run webpack:prod` from the command line that would compile all client-side files. Run `npm run compile:fonts` that would do the same for fonts.
+
+5. Create `dw.json` file in the root of the project:
 ```json
 {
     "hostname": "your-sandbox-hostname.demandware.net",
@@ -41,19 +43,24 @@ The latest version of SFRA is 4.4.1
 # NPM scripts
 Use the provided NPM scripts to compile and upload changes to your Sandbox.
 
+# Webpack
+We use webpack to compile static files within one webpack-file. This avoids redundant dependencies and the need to maintain multiple webpack configs when working on plugins or multicartridge projects
+You can control which plugins you want to compile using `webpackHandling/sfraBuilderConfig.js`
+- Run `npm install`.
+- Copy `webpackHandling/example_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
+For further information and usage see [Webpack bundling documentation](./webpackHandling/README.md)
+
 ## Compiling your application
 
-* `npm run compile:scss` - Compiles all .scss files into CSS.
-* `npm run compile:js` - Compiles all .js files and aggregates them.
+* `npm run webpack:prod` - Compiles all .js && .scss files minimized.
+* `npm run webpack:dev` - Compiles all .js && .scss files with sourcemaps.
+* `npm run webpack:watch` - Compiles all .js && .scss files with sourcemaps and watches them
+* `npm run webpack:watch:lint` - Compiles all .js && .scss files with sourcemaps, watches and lint them
 * `npm run compile:fonts` - Copies all needed font files. Usually, this only has to be run once.
 
 ## Linting your code
 
 `npm run lint` - Execute linting for all JavaScript and SCSS files in the project. You should run this command before committing your code.
-
-## Watching for changes and uploading
-
-`npm run watch` - Watches everything and recompiles (if necessary) and uploads to the sandbox. Requires a valid `dw.json` file at the root that is configured for the sandbox to upload.
 
 ## Uploading
 
