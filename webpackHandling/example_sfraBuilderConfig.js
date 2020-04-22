@@ -20,5 +20,5 @@ module.exports.aliasConfig = {
  * Exposes cartridges included in the project
  */
 module.exports.cartridges = [
-    '../cartridges/app_storefront_base'
+    './cartridges/app_storefront_base'
 ];
