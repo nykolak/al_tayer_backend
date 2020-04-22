@@ -11,7 +11,7 @@ module.exports.aliasConfig = {
     alias: {
         base: path.resolve(
             process.cwd(), // eslint-disable-next-line max-len
-            '../cartridges/app_storefront_base/cartridge/client/default/'
+            './cartridges/app_storefront_base/cartridge/client/default/'
         )
     }
 };
