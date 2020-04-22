@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "npx mocha test/unit/**/*.js",
-    "cover": "sgmf mocha --cover 'test/unit'",
+    "cover": "sgmf --cover 'test/unit'",
     "test:integration": "sgmf-scripts --integration 'test/integration/**/*.js'",
     "test:acceptance:custom": "npx codeceptjs run --plugins retryFailedStep --profile",
     "test:acceptance:deep": "npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile",
