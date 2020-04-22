@@ -10,7 +10,17 @@ const WebpackCleanPlugin = require('clean-webpack-plugin');
 const WebpackStyleLintPlugin = require('stylelint-webpack-plugin');
 // - minification
 const TerserPlugin = require('terser-webpack-plugin');
-const sfraBuilderConfig = require('./webpackHandling/sfraBuilderConfig');
+const fs = require('fs');
+
+var sfraBuilderConfig;
+
+try {
+    sfraBuilderConfig = require('./webpackHandling/sfraBuilderConfig');
+} catch (e) {
+    // for tests to sucess we work with the example
+    sfraBuilderConfig = require('./webpackHandling/example_sfraBuilderConfig');
+}
+
 const webpackHelper = require('./webpackHandling/helper');
 
 process.noDeprecation = true;
