@@ -1,7 +1,14 @@
 
 var path = require('path');
 var WebpackExtractTextPlugin = require('extract-text-webpack-plugin');
-var sfraBuilderConfig = require('./sfraBuilderConfig');
+
+var sfraBuilderConfig;
+try {
+    sfraBuilderConfig = require('./sfraBuilderConfig');
+} catch (e) {
+    // for tests to sucess we work with the example
+    sfraBuilderConfig = require('./example_sfraBuilderConfig');
+}
 
 /**
  * Add task runners and plugins to ruleSet
