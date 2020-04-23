@@ -10,7 +10,8 @@ const WebpackCleanPlugin = require('clean-webpack-plugin');
 const WebpackStyleLintPlugin = require('stylelint-webpack-plugin');
 // - minification
 const TerserPlugin = require('terser-webpack-plugin');
-const fs = require('fs');
+// - copy
+const WebpackCopyPlugin = require('copy-webpack-plugin');
 
 var sfraBuilderConfig;
 
@@ -162,6 +163,12 @@ class WebpackBundle {
         let plugins = this.getPlugins(cartridge, fileType, env);
         let modulePaths = [];
         const aliases = this.buildDynamicAliases(sfraBuilderConfig.aliasConfig.alias, fileType);
+
+
+        if (sfraBuilderConfig.copyConfig[cartridge]) {
+            plugins.push(new WebpackCopyPlugin(sfraBuilderConfig.copyConfig[cartridge]));
+        }
+
         // loop through all cartridges for node_modules lookup
         // this allows to require node_modules from every plugin, regardless if those
         // modules are installed in the given plugin

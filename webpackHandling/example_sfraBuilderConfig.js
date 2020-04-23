@@ -17,6 +17,17 @@ module.exports.aliasConfig = {
 };
 
 /**
+ * Allows copying files to static folder
+ */
+module.exports.copyConfig = {
+    './cartridges/app_storefront_base': [
+        { from: 'node_modules/font-awesome/fonts/', to: 'default/fonts' },
+        { from: 'node_modules/flag-icon-css/flags', to: 'default/fonts/flags' }
+    ]
+};
+
+
+/**
  * Exposes cartridges included in the project
  */
 module.exports.cartridges = [
