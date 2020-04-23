@@ -32,7 +32,7 @@ Example Structure
 ## Usage
 
 - Run `npm install`.
-- Copy `webpackHandling/example_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
+- Copy `webpackHandling/default_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
 - Configure *cartridges* and *aliases* in `webpackHandling/sfraBuilderConfig.js` 
 **(Ensure that the paths in `webpackHandling/sfraBuilderConfig.js` point correctly to the included SFRA and plugins according to your directory structure)** The paths needs to be set relatively to *webpack.config.js*
 - Run `npm run npmInstall`. This will setup all cartridges's node_modules dependencies in the directories which are defined in `webpackHandling/sfraBuilderConfig.js` `cartridges` array.

@@ -18,7 +18,7 @@ The latest version of SFRA is 4.4.1
 
 2. Run `npm install` to install all of the local dependencies (node version 8.x or current LTS release recommended)
 
-3. Copy `webpackHandling/example_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
+3. Copy `webpackHandling/default_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
 
 4. Run `npm run webpack:prod` from the command line that would compile all client-side files. Run `npm run compile:fonts` that would do the same for fonts.
 
@@ -47,7 +47,7 @@ Use the provided NPM scripts to compile and upload changes to your Sandbox.
 We use webpack to compile static files within one webpack-file. This avoids redundant dependencies and the need to maintain multiple webpack configs when working on plugins or multicartridge projects
 You can control which plugins you want to compile using `webpackHandling/sfraBuilderConfig.js`
 - Run `npm install`.
-- Copy `webpackHandling/example_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
+- Copy `webpackHandling/default_sfraBuilderConfig.js` to `webpackHandling/sfraBuilderConfig.js` to define your own config
 For further information and usage see [Webpack bundling documentation](./webpackHandling/README.md)
 
 ## Compiling your application

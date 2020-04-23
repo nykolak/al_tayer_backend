@@ -19,7 +19,7 @@ try {
     sfraBuilderConfig = require('./webpackHandling/sfraBuilderConfig');
 } catch (e) {
     // for tests to sucess we work with the example
-    sfraBuilderConfig = require('./webpackHandling/example_sfraBuilderConfig');
+    sfraBuilderConfig = require('./webpackHandling/default_sfraBuilderConfig');
 }
 
 const webpackHelper = require('./webpackHandling/helper');

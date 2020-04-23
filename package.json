@@ -30,7 +30,7 @@
     "lint:js": "sgmf-scripts --lint js",
     "upload": "sgmf-scripts --upload",
     "uploadCartridge": "sgmf-scripts --uploadCartridge app_storefront_base && sgmf-scripts --uploadCartridge modules && sgmf-scripts --uploadCartridge bm_app_storefront_base",
-    "webpack:npmInstall:all": "node ./webpack/installHandling/install.js",
+    "webpack:npmInstall:all": "node webpackHandling/installHandling/install.js",
     "webpack:dev": "npx webpack --env.dev",
     "webpack:prod": "npx webpack --env.dev=false",
     "webpack:watch": "npx webpack --env.dev --watch",

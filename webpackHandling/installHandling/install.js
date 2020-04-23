@@ -4,7 +4,7 @@
  * Multicartridge npm installer command.
  */
 
-var sfraBuilderConfig = require('../webpackHandling/sfraBuilderConfig');
+var sfraBuilderConfig = require('../../webpackHandling/sfraBuilderConfig');
 var npmInstallHelper = require('./installHelper');
 
 (function () {

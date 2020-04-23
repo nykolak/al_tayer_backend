@@ -7,7 +7,7 @@ try {
     sfraBuilderConfig = require('./sfraBuilderConfig');
 } catch (e) {
     // for tests to sucess we work with the example
-    sfraBuilderConfig = require('./example_sfraBuilderConfig');
+    sfraBuilderConfig = require('./default_sfraBuilderConfig');
 }
 
 /**
