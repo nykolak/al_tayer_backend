@@ -13,7 +13,7 @@ We allow to let you bundle all your `js`, `scss` and `jsx` files out of the box.
 ## Prerequisite
 
 - Run `npm install`
-- ***alternative*** Run installation for all cartridges, utilize `npm run npmInstall` after setting up `webpackHandling/sfraBuilderConfig.js` as defined in Usage section.
+- ***alternative*** Run installation for all cartridges, utilize `npm run webpack:npmInstall:all` after setting up `webpackHandling/sfraBuilderConfig.js` as defined in Usage section.
 
 Example Structure
 
