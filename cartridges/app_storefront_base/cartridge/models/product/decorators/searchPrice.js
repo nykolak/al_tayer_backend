@@ -83,7 +83,7 @@ module.exports = function (object, searchHit, activePromotions, getSearchHit) {
     Object.defineProperty(object, 'price', {
         enumerable: true,
         value: (function () {
-            var salePrice = { minPrice: searchHit.minPrice, maxPrice: searchHit.maxPrice };
+            var salePrice = { minPrice: searchHit.product.priceModel.minPrice, maxPrice: searchHit.product.priceModel.maxPrice };
             var promotions = getPromotions(searchHit, activePromotions);
             if (promotions.getLength() > 0) {
                 var promotionalPrice = pricingHelper.getPromotionPrice(searchHit.firstRepresentedProduct, promotions);
