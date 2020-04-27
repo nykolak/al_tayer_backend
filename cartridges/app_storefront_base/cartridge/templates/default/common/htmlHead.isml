@@ -45,3 +45,14 @@
                which means you need to put privacy information into another remote include
 </iscomment>
 ${dw.system.HookMgr.callHook('app.template.htmlHead', 'htmlHead', pdict) || ''}
+
+<!-- Custom Theme -->
+
+<!-- maybe via content asset with content slot -->
+<!--<link rel="stylesheet" href="https://ecom-2015327907.vpod.t.force.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/v7e8c8d3cfe6c5ad1c6884b106e8e58f5e86e717c/css/store-theme.css">-->
+
+<!-- OR -->
+
+<iscontentasset aid="store-theme" />
+
+<link rel="stylesheet" href="${URLUtils.staticURL('/css/theme/theme.css')}" />
