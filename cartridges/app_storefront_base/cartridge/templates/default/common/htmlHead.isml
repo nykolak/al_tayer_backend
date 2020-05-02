@@ -41,18 +41,17 @@
 <iscomment>
     hook for Marketing Cloud connector & other integration which need to inject
     logic or markup into the page header
-    IMPORTANT: Note that this hook will be called to cached as well as uncached pages
-               which means you need to put privacy information into another remote include
+        IMPORTANT: Note that this hook will be called to cached as well as uncached pages
+        Refrain from calling processing intensive logic in here 
+        do not include shopper specific information.
 </iscomment>
 ${dw.system.HookMgr.callHook('app.template.htmlHead', 'htmlHead', pdict) || ''}
-
-<!-- Custom Theme -->
-
-<!-- maybe via content asset with content slot -->
-<!--<link rel="stylesheet" href="https://ecom-2015327907.vpod.t.force.com/on/demandware.static/-/Library-Sites-RefArchSharedLibrary/default/v7e8c8d3cfe6c5ad1c6884b106e8e58f5e86e717c/css/store-theme.css">-->
-
-<!-- OR -->
-
-<iscontentasset aid="store-theme" />
-
-<link rel="stylesheet" href="${URLUtils.staticURL('/css/theme/theme.css')}" />
+<iscomment>
+    Hook to overlay skinning css
+    IMPORTANT: Note that this hook will be called to cached as well as uncached pages
+        Refrain from calling processing intensive logic in here
+        do not include shopper specific information.
+        This hook will be executed with encoding disabled. Please sanitize output in the hook.
+</iscomment>
+<isprint value="${dw.system.HookMgr.callHook('app.template.renderSkin', 'renderSkin', pdict) || ''}" encoding="off">
+<link rel="stylesheet" href="${URLUtils.staticURL('/css/skin/skin.css')}" />

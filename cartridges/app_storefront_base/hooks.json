@@ -31,6 +31,10 @@
         {
             "name": "app.experience.editmode",
             "script": "./cartridge/experience/hooks.js"
+        },
+        {
+            "name": "app.template.renderSkin",
+            "script": "./cartridge/scripts/hooks/skin.js"
         }
     ]
 }
