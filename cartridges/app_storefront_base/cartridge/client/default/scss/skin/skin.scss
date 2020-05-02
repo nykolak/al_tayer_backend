@@ -11,10 +11,16 @@ body,
 }
 
 .main-menu {
-    background-color: var(--skin-banner-color-1);
+    background-color: var(--skin-banner-background-color-1);
 }
+
+.banner-color {
+    background-color: var(--skin-banner-background-color-1);
+}
+
 .header-banner {
-    background-color: var(--skin-banner-color-1);
+    background-color: var(--skin-banner-background-color-1);
+    color: var(--skin-banner-text-color-1);
 }
 
 h1.header.page-title,
@@ -24,7 +30,7 @@ h1.header.page-title:before {
 
 .product-tile {
     background-color: var(--skin-background-color-1);
-    border: 10px solid var(--skin-background-color-2);
+    border: 10px solid var(--skin-border-color-1);
 }
 
 .refinements ul li button {
@@ -54,7 +60,6 @@ header ~ #maincontent .container a:not(.btn-primary, .btn-outline-primary) {
 .navbar .nav-item.dropdown a,
 .dropdown-menu,
 .dropdown-menu a {
-    color: var(--skin-main-text-color-1);
-    background-color: var(--skin-background-color-1);
+    color: var(--skin-banner-text-color-1);
 }
 
