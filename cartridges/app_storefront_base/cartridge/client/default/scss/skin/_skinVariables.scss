@@ -51,7 +51,7 @@
     
     --skin-primary-color-1: var(--color-primary);
     --skin-primary-color-2: var(--color-primary);
-
+    --skin-primary-color-invert-1: var(--skin-main-text-color-1);
     --skin-selectbox-background-color-1: var(--skin-background-color-1);
     --skin-selectbox-text-color-1: var(--skin-main-text-color-1);
 
@@ -59,4 +59,7 @@
     --skin-heading-color-1: var(--color-blue);
 
     --skin-price-1: var(--color-gray7);
+
+    --skin-header-font: 'Dosis';
+    --skin-body-font: 'Helvetica';
 }
