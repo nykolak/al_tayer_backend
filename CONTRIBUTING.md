@@ -75,6 +75,4 @@ Our sprints run for about two weeks; in that period of time, we typically review
 
 To speed up the process of reviewing and merging your pull request, grant the following team members access to your fork:
 
-  * SFRA team 
-  
-  * Jenkins automation - sg-jenkins
+  * SFRA team
