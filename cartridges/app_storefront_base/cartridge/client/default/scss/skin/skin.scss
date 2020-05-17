@@ -27,7 +27,7 @@ body,
 h1.header.page-title,
 h1.header.page-title:before {
     background-color: var(--skin-heading-color-1);
-    color:
+    color: var(--skin-heading-color-1-invert);
 }
 
 .product-tile {

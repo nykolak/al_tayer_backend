@@ -41,7 +41,7 @@
     /** ==================================================================== **/
     /** Define skin named variables here                                    **/
     /** ==================================================================== **/
-    --skin-background-color-1: var(--color-white);
+    --skin-background-color-1: #f9f9f9;
     --skin-border-color-1: var(--color-white);
     
     --skin-main-text-color-1: var(--color-gray7);
@@ -55,7 +55,8 @@
     --skin-selectbox-background-color-1: var(--skin-background-color-1);
     --skin-selectbox-text-color-1: var(--skin-main-text-color-1);
 
-    --skin-banner-color-1: var(--color-darker-gray);
+    --skin-banner-background-color-1: #444;
+    --skin-banner-text-color-1: var(--color-white);
     --skin-heading-color-1: var(--color-blue);
 
     --skin-price-1: var(--color-gray7);
