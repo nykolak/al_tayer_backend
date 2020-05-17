@@ -8,7 +8,7 @@
     --color-black: #{$black};
     --color-blue: #{$blue};
     --color-green: #{$green};
-    --color-primary: #{$primary};
+    --color-primary: #{ #{var(--skin-primary-color-1)}};
     --color-red: #{$red};
     --color-success: var(--color-green);
     --color-danger: var(--color-red);
@@ -39,21 +39,28 @@
     --color-hr-border-color: var(--color-grey3);
 
     /** ==================================================================== **/
-    /** Define Theme named variables here                                    **/
+    /** Define skin named variables here                                    **/
     /** ==================================================================== **/
-    --theme-background-color-1: var(--color-white);
-    --theme-background-color-2: var(--color-white);
-    --theme-main-text-color-1: var(--color-gray7);
-    --theme-main-text-color-2: var(--color-gray7);
+    --skin-background-color-1: #f9f9f9;
+    --skin-border-color-1: var(--color-white);
+    
+    --skin-main-text-color-1: var(--color-gray7);
+    --skin-main-text-color-2: var(--color-gray7);
 
-    --theme-primary-color-1: var(--color-primary);
-    --theme-primary-color-2: var(--color-primary);
+    --skin-link-color-1: var(--color-blue);
+    
+    --skin-primary-color-1: var(--color-primary);
+    --skin-primary-color-2: var(--color-primary);
+    --skin-primary-color-invert-1: var(--skin-main-text-color-1);
+    --skin-selectbox-background-color-1: var(--skin-background-color-1);
+    --skin-selectbox-text-color-1: var(--skin-main-text-color-1);
 
-    --theme-selectbox-background-color-1: var(--theme-background-color-1);
-    --theme-selectbox-text-color-1: var(--theme-main-text-color-1);
+    --skin-banner-background-color-1: #444;
+    --skin-banner-text-color-1: var(--color-white);
+    --skin-heading-color-1: var(--color-blue);
 
-    --theme-banner-color-1: var(--color-darker-gray);
-    --theme-heading-color-1: var(--color-blue);
+    --skin-price-1: var(--color-gray7);
 
-    --theme-price-1: var(--color-gray7);
+    --skin-header-font: 'Dosis';
+    --skin-body-font: 'Helvetica';
 }
