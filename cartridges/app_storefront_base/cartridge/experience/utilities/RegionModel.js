@@ -30,7 +30,7 @@ function setAttribute(renderSettings, name, value) {
  */
 function RegionModel(container, name) {
     this.region = container.getRegion(name);
-    this.regionRenderSettings = (new RegionRenderSettings()).setTagName('div');
+    this.regionRenderSettings = (new RegionRenderSettings()).setTagName(null);
     this.defaultComponentRenderSettings = (new ComponentRenderSettings()).setTagName('div');
     this.regionRenderSettings.setDefaultComponentRenderSettings(this.defaultComponentRenderSettings);
 }
@@ -41,8 +41,12 @@ function RegionModel(container, name) {
  * @param {string} name the name of the tag (default: div)
  * @return {RegionModel} The region model object
  */
-RegionModel.prototype.setTagName = function tagName(name) {
+RegionModel.prototype.setTagName = function tagName(name, inComponents) {
     this.regionRenderSettings.setTagName(name);
+    if (inComponents) {
+        this.defaultComponentRenderSettings = (new ComponentRenderSettings()).setTagName(name);
+        this.regionRenderSettings.setDefaultComponentRenderSettings(this.defaultComponentRenderSettings);
+    }
     return this;
 };
 
