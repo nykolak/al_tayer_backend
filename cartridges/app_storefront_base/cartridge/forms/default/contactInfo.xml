@@ -3,7 +3,7 @@
 
     <!-- fields for email and phone number -->
     <field formid="email" label="profile.email" type="string" mandatory="true" binding="email"
-           max-length="50" regexp="^[\w.%+-]+@[\w.-]+\.[\w]{2,6}$" missing-error="error.card.info.missing.email"
+           max-length="50" regexp="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" missing-error="error.card.info.missing.email"
            parse-error="error.message.parse.email.profile.form" range-error="error.message.50orless"
            value-error="ValueErrorText" required="" />
 
