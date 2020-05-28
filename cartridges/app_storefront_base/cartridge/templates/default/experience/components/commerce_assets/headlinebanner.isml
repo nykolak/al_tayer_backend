@@ -1,0 +1,31 @@
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addCss('/css/experience/components/commerceAssets/imageAndTextCommon.css');
+    //assets.addCss('/css/headlinebanner.css');
+    //assets.addCss('/css/component.css');
+</isscript>
+<figure class="component-figure image-component">
+    <picture>
+        <source srcset="${pdict.bannerImg.src.desktop}" media="(min-width: 768px)"/>
+        <img class="component-image ITC-image image-fluid common-image-component common-image-filter" src="${pdict.bannerImg.src.mobile}" style="--focal-point-x:${pdict.bannerImg.focalPointX}; --focal-point-y:${pdict.bannerImg.focalPointY}" alt="${pdict.bannerImg.alt}" title="${pdict.bannerImg.alt}" />
+    </picture>
+    <figcaption class="headlinebanner-text_container" style="text-align: left">
+        <div class="headlinebanner-text headlinebanner-title" title="<isprint value="${pdict.bannerCopy}" encoding="off"/>">
+            <span class="headlinebanner-wrap"><isprint value="${pdict.bannerTitle}" encoding="off"/></span>
+        </div>
+
+        <isif condition="${pdict.bannerCopy}">
+            <div class="headlinebanner-text headlinebanner-copy">
+                <span class="headlinebanner-wrap"><isprint value="${pdict.bannerCopy}" encoding="off"/></span>
+            </div>
+        </isif>
+
+        <isif condition="${pdict.callToAction}">
+            <div class="headlinebanner-text headlinebanner-text_subheading">
+                <a class="headlinebanner-calltoaction btn-primary" title="<isprint value="${pdict.callToAction.title}" encoding="off" />" href="<isprint value="${pdict.callToAction.link}" encoding="off" />" />
+                    <isprint value="${pdict.callToAction.title}" encoding="off" />
+                </a>
+            </div>
+        </isif>
+    </figcaption>
+</figure>
