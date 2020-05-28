@@ -1,0 +1,39 @@
+{
+    "name": "CMS Headline Banner",
+    "description": "Image, text overlay from CMS that links user to a B2C target using the markup editor",
+    "group": "assets",
+    "attribute_definition_groups": [{
+            "id": "headlineContent",
+            "name": "Headline Content",
+            "description": "The presentation of the headline",
+            "attribute_definitions": [{
+                "id": "cmsItem",
+                "name": "Headline Content",
+                "type": "cms_record",
+                "required": true,
+                "editor_definition": {
+                    "content_type": "news"
+                }
+            }]
+        },
+        {
+            "id": "calltoaction",
+            "name": "Call to Action Button",
+            "description": "Label and target for the call to cation button",
+            "attribute_definitions": [{
+                    "id": "ctaTitle",
+                    "name": "Button Title",
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "id": "ctaLink",
+                    "name": "Button Link",
+                    "type": "url",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "region_definitions": []
+}
