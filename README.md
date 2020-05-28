@@ -10,7 +10,7 @@ Your feedback on the ease-of-use and limitations of this new architecture is inv
 
 # The latest version
 
-The latest version of SFRA is 4.4.1
+The latest version of SFRA is 5.0.1
 
 # Getting Started
 
@@ -46,6 +46,8 @@ Use the provided NPM scripts to compile and upload changes to your Sandbox.
 * `npm run compile:scss` - Compiles all .scss files into CSS.
 * `npm run compile:js` - Compiles all .js files and aggregates them.
 * `npm run compile:fonts` - Copies all needed font files. Usually, this only has to be run once.
+
+ If you are having an issue compiling scss files, try running 'npm rebuild node-sass' from within your local repo.
 
 ## Linting your code
 
