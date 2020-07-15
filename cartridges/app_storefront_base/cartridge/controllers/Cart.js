@@ -522,6 +522,62 @@ server.get(
             return next();
         }
 
+        /* line 548 - 590: to show bonus product modal on entering a coupon code in the cart
+            GUS ticket # W-7324026
+            Error - "TypeError: Cannot read property \"optionModel\" from null (app_storefront_base/cartridge/scripts/cart/cartHelpers.js#373)"
+
+            looking for 'options' of added bonus product from 'result' line # 555
+            displays add bonus product modal on PDP after coupon has been entered in the cart
+            change bonus product selection works in the cart
+            removes added bonus product when coupon code is removed, page refresh required
+         */
+
+        var cartHelper = require('*/cartridge/scripts/cart/cartHelpers');
+        var previousBonusDiscountLineItems = currentBasket.getBonusDiscountLineItems();
+        var result;
+        var productId = req.form.pid;
+        var quantity;
+        var newBonusDiscountLineItems = currentBasket.getBonusDiscountLineItems();
+
+        quantity = parseInt(req.form.quantity, 10);
+        result = cartHelper.addProductToCart(
+            currentBasket,
+            productId,
+            quantity
+        );
+
+        var urlObject = {
+            url: URLUtils.url('Cart-ChooseBonusProducts').toString(),
+            configureProductstUrl: URLUtils.url(
+                'Product-ShowBonusProducts'
+            ).toString(),
+            addToCartUrl: URLUtils.url('Cart-AddBonusProducts').toString(),
+        };
+
+        var newBonusDiscountLineItem = cartHelper.getNewBonusDiscountLineItem(
+            currentBasket,
+            previousBonusDiscountLineItems,
+            urlObject,
+            result.uuid
+        );
+        if (newBonusDiscountLineItem) {
+            var allLineItems = currentBasket.allProductLineItems;
+            var collections = require('*/cartridge/scripts/util/collections');
+            collections.forEach(allLineItems, function (pli) {
+                if (pli.UUID === result.uuid) {
+                    Transaction.wrap(function () {
+                        pli.custom.bonusProductLineItemUUID = 'bonus'; // eslint-disable-line no-param-reassign
+                        pli.custom.preOrderUUID = pli.UUID; // eslint-disable-line no-param-reassign
+                    });
+                }
+            });
+        }
+
+        res.json({
+            newBonusDiscountLineItem: newBonusDiscountLineItems || {},
+            error: result.error
+        });
+
         Transaction.wrap(function () {
             basketCalculationHelpers.calculateTotals(currentBasket);
         });
