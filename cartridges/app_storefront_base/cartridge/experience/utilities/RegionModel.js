@@ -39,6 +39,7 @@ function RegionModel(container, name) {
  * Set the tag name of a region
  *
  * @param {string} name the name of the tag (default: div)
+ * @param {booleam} inComponents wether the tag should be used in its components too (default: div)
  * @return {RegionModel} The region model object
  */
 RegionModel.prototype.setTagName = function tagName(name, inComponents) {
