@@ -2,7 +2,9 @@
 
 :root {
     /** ==================================================================== **/
+
     /** Create Custom CSS Variables from "sfra bootstrap override" variables **/
+
     /** ==================================================================== **/
     --color-white: #{$white};
     --color-black: #{$black};
@@ -25,7 +27,6 @@
     --color-grey8: #{$grey8};
     --color-grey-transparent-1: rgba(0, 0, 0, 0.65);
     --color-grey-transparent-2: rgba(0, 0, 0, 0.25);
-
     --color-light-gray: var(--color-grey1);
     --color-slightly-darker-gray: var(--color-grey4);
     --color-dark-gray: var(--color-grey6);
@@ -39,28 +40,24 @@
     --color-hr-border-color: var(--color-grey3);
 
     /** ==================================================================== **/
+
     /** Define skin named variables here                                    **/
+
     /** ==================================================================== **/
     --skin-background-color-1: #f9f9f9;
     --skin-border-color-1: var(--color-white);
-    
     --skin-main-text-color-1: var(--color-gray7);
     --skin-main-text-color-2: var(--color-gray7);
-
     --skin-link-color-1: var(--color-blue);
-    
     --skin-primary-color-1: var(--color-primary);
     --skin-primary-color-2: var(--color-primary);
     --skin-primary-color-invert-1: var(--skin-main-text-color-1);
     --skin-selectbox-background-color-1: var(--skin-background-color-1);
     --skin-selectbox-text-color-1: var(--skin-main-text-color-1);
-
     --skin-banner-background-color-1: #444;
     --skin-banner-text-color-1: var(--color-white);
     --skin-heading-color-1: var(--color-blue);
-
     --skin-price-1: var(--color-gray7);
-
     --skin-header-font: 'Dosis';
     --skin-body-font: 'Helvetica';
 }
