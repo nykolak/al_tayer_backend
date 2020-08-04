@@ -45,11 +45,11 @@ h1.header.page-title::before {
 }
 
 a {
-    color:  var(--skin-primary-color-1);
+    color: var(--skin-primary-color-1);
 }
 
 header ~ #maincontent .container a:not(.btn-primary, .btn-outline-primary) {
-    color:  var(--skin-primary-color-1);
+    color: var(--skin-primary-color-1);
 }
 
 .price {
