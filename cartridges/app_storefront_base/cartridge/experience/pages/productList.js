@@ -9,11 +9,12 @@ var PageRenderHelper = require('*/cartridge/experience/utilities/PageRenderHelpe
  * Render logic for the product list page.
  *
  * @param {dw.experience.PageScriptContext} context The page script context object.
+ * @param {dw.util.Map} [modelIn] Additional model values created by another cartridge. This will not be passed in by Commcerce Cloud Plattform.
  *
- * @returns {string} The template text
+ * @returns {string} The markup to be displayed
  */
-module.exports.render = function (context) {
-    var model = new HashMap();
+module.exports.render = function (context, modelIn) {
+    var model = modelIn || new HashMap();
     var page = context.page;
     model.page = page;
 

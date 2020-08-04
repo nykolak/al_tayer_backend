@@ -10,10 +10,13 @@ var productHelper = require('*/cartridge/scripts/helpers/productHelpers.js');
 /**
  * Render logic for the storefront.popularCategories.
  * @param {dw.experience.ComponentScriptContext} context The Component script context object.
- * @returns {string} The template to be displayed
+ * @param {dw.util.Map} [modelIn] Additional model values created by another cartridge. This will not be passed in by Commcerce Cloud Plattform.
+ *
+ * @returns {string} The markup to be displayed
  */
-module.exports.render = function (context) {
-    var model = new HashMap();
+module.exports.render = function (context, modelIn) {
+    var model = modelIn || new HashMap();
+
     var component = context.component;
     model.regions = PageRenderHelper.getRegionModelRegistry(component);
     var product = context.content.product;
