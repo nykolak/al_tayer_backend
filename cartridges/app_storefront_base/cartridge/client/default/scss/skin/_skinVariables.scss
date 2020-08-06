@@ -44,7 +44,7 @@
     /** Define skin named variables here                                    **/
 
     /** ==================================================================== **/
-    --skin-background-color-1: #f9f9f9;
+    --skin-background-color-1: var(--color-gray1);
     --skin-border-color-1: var(--color-white);
     --skin-main-text-color-1: var(--color-gray7);
     --skin-main-text-color-2: var(--color-gray7);

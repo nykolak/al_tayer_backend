@@ -30,7 +30,7 @@ function setAttribute(renderSettings, name, value) {
  */
 function RegionModel(container, name) {
     this.region = container.getRegion(name);
-    this.regionRenderSettings = (new RegionRenderSettings()).setTagName(null);
+    this.regionRenderSettings = (new RegionRenderSettings()).setTagName('div');
     this.defaultComponentRenderSettings = (new ComponentRenderSettings()).setTagName('div');
     this.regionRenderSettings.setDefaultComponentRenderSettings(this.defaultComponentRenderSettings);
 }
