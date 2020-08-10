@@ -34,6 +34,7 @@ module.exports.render = function (context, modelIn) {
     // automatically register configured regions
     model.regions = PageRenderHelper.getRegionModelRegistry(page);
 
+    // call a hook and reset client side data when rendering inside the Page Designer
     if (PageRenderHelper.isInEditMode()) {
         var HookManager = require('dw/system/HookMgr');
         HookManager.callHook('app.experience.editmode', 'editmode');

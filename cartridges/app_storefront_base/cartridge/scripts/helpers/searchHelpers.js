@@ -42,7 +42,7 @@ function getCategoryTemplate(apiProductSearch) {
  *  * invisiblePage - the page that is configured for this category if we ignore visibility, if it is different from page
  *  * aspectAttributes - the aspect attributes that should be passed to the PageMgr, null if no page was found
  */
-function getPageDesignerPage(categoryID) {
+function getPageDesignerCategoryPage(categoryID) {
     var CatalogMgr = require('dw/catalog/CatalogMgr');
     var PageMgr = require('dw/experience/PageMgr');
     var HashMap = require('dw/util/HashMap');
@@ -321,7 +321,7 @@ function getBannerImageUrl(category) {
 exports.backButtonDetection = backButtonDetection;
 exports.setupSearch = setupSearch;
 exports.getCategoryTemplate = getCategoryTemplate;
-exports.getPageDesignerPage = getPageDesignerPage;
+exports.getPageDesignerCategoryPage = getPageDesignerCategoryPage;
 exports.setupContentSearch = setupContentSearch;
 exports.search = search;
 exports.applyCache = applyCache;

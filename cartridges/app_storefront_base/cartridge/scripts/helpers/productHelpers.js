@@ -386,7 +386,7 @@ function showProductPage(querystring, reqPageMetaData) {
  *  * invisiblePage - the page that is configured for this product if we ignore visibility, if it is different from page
  *  * aspectAttributes - the aspect attributes that should be passed to the PageMgr, null if no page was found
  */
-function getPageDesignerPage(reqProduct) {
+function getPageDesignerProductPage(reqProduct) {
     if (reqProduct.template) {
        // this product uses an individual template, for backwards compatibility this has to be handled as a non-PD page
         return {
@@ -444,5 +444,5 @@ module.exports = {
     showProductPage: showProductPage,
     getAllBreadcrumbs: getAllBreadcrumbs,
     getResources: getResources,
-    getPageDesignerPage: getPageDesignerPage
+    getPageDesignerProductPage: getPageDesignerProductPage
 };

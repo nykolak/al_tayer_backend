@@ -23,7 +23,7 @@ describe('search helpers', function () {
         });
     });
 
-    describe('getPageDesignerPage', function () {
+    describe('getPageDesignerCategoryPage', function () {
         var searchHelpersMock;
         var catalogMgrMock;
         var pageMgrMock;
@@ -51,7 +51,7 @@ describe('search helpers', function () {
         it('should return an object with null values, if no suitable page can be found', function () {
             pageMgrMock.getPage.returns(null);
 
-            var result = searchHelpersMock.getPageDesignerPage('someId');
+            var result = searchHelpersMock.getPageDesignerCategoryPage('someId');
             assert.isNotNull(result);
             assert.isNull(result.page);
             assert.isNull(result.invisiblePage);
@@ -63,7 +63,7 @@ describe('search helpers', function () {
             var invisibleMockPage = { isVisible: function () { return false; }, ID: 'invisible' };
             pageMgrMock.getPage.withArgs(categoryMock, false, 'plp').returns(invisibleMockPage);
 
-            var result = searchHelpersMock.getPageDesignerPage('someId');
+            var result = searchHelpersMock.getPageDesignerCategoryPage('someId');
             assert.isNotNull(result);
             assert.isNull(result.page);
             assert.strictEqual(result.invisiblePage, invisibleMockPage);
@@ -75,7 +75,7 @@ describe('search helpers', function () {
             var mockPage = { ID: 'mockPageId', isVisible: function () { return true; } };
             pageMgrMock.getPage.returns(mockPage);
 
-            var result = searchHelpersMock.getPageDesignerPage('someId');
+            var result = searchHelpersMock.getPageDesignerCategoryPage('someId');
             assert.isNotNull(result);
             assert.strictEqual(result.page, mockPage);
             assert.isNull(result.invisiblePage);
@@ -91,7 +91,7 @@ describe('search helpers', function () {
             var invisibleMockPage = { isVisible: function () { return false; }, ID: 'invisible' };
             pageMgrMock.getPage.withArgs(categoryMock, false, 'plp').returns(invisibleMockPage);
 
-            var result = searchHelpersMock.getPageDesignerPage('someId');
+            var result = searchHelpersMock.getPageDesignerCategoryPage('someId');
             assert.isNotNull(result);
             assert.strictEqual(result.page, mockPage);
             assert.strictEqual(result.invisiblePage, invisibleMockPage);

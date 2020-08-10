@@ -7,7 +7,7 @@ var HashMap = require('dw/util/HashMap');
 var PageRenderHelper = require('*/cartridge/experience/utilities/PageRenderHelper.js');
 
 /**
- * Render logic for the storefront.popularCategories.
+ * Render logic for the product list component
  * @param {dw.experience.ComponentScriptContext} context The Component script context object.
  * @param {dw.util.Map} [modelIn] Additional model values created by another cartridge. This will not be passed in by Commcerce Cloud Plattform.
  *
