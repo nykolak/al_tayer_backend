@@ -109,6 +109,11 @@ server.get('Show', cache.applyShortPromotionSensitiveCache, consentTracking.cons
         template = result.categoryTemplate;
     }
 
+    var redirectGridUrl = searchHelper.backButtonDetection(req.session.clickStream);
+    if (redirectGridUrl) {
+        res.redirect(redirectGridUrl);
+    }
+
     res.render(template, {
         productSearch: result.productSearch,
         maxSlots: result.maxSlots,
@@ -116,7 +121,8 @@ server.get('Show', cache.applyShortPromotionSensitiveCache, consentTracking.cons
         refineurl: result.refineurl,
         category: result.category ? result.category : null,
         canonicalUrl: result.canonicalUrl,
-        schemaData: result.schemaData
+        schemaData: result.schemaData,
+        apiProductSearch: result.apiProductSearch
     });
 
     return next();

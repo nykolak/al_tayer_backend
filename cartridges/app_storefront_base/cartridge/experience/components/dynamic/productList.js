@@ -41,6 +41,7 @@ module.exports.render = function (context, modelIn) {
         CatalogMgr.getSiteCatalog().getRoot()
     );
     model.productSearch = productSearch;
+    model.apiProductSearch = apiProductSearch;
 
     // Component Regions
     var gridCol = '4';
