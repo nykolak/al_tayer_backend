@@ -23,6 +23,7 @@ body,
     background-color: var(--skin-banner-background-color-2);
     color: var(--skin-banner-text-color-1);
 }
+
 .header-banner .close-button .close {
     background-color: var(--skin-primary-color-1);
 }
@@ -74,9 +75,9 @@ header ~ #maincontent .container a:not(.btn-primary, .btn-outline-primary) {
     color: var(--skin-selectbox-text-color-1);
 }
 
-
 .navbar .nav-item.dropdown .dropdown-menu.show {
     background-color: var(--skin-selectbox-background-color-1);
+
     a,
     .nav-item {
         color: var(--skin-selectbox-text-color-1);
