@@ -94,6 +94,7 @@ function updateCartTotals(data) {
         } else {
             $('.item-' + item.UUID).empty();
             $('.strike-through').empty();
+            $('.line-item-price').empty().append(item.price.sales.formatted);
         }
         if (item.priceTotal && item.priceTotal.renderedPrice) {
             $('.item-total-' + item.UUID).empty().append(item.priceTotal.renderedPrice);
