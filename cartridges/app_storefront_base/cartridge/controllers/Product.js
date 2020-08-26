@@ -24,7 +24,7 @@ server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, 
         res.setStatusCode(404);
         res.render('error/notFound');
     } else {
-        var pageLookupResult = productHelper.getPageDesignerPage(showProductPageHelperResult.product);
+        var pageLookupResult = productHelper.getPageDesignerProductPage(showProductPageHelperResult.product);
 
         if ((pageLookupResult.page && pageLookupResult.page.hasVisibilityRules()) || pageLookupResult.invisiblePage) {
             // the result may be different for another user, do not cache on this level

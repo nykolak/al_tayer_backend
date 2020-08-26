@@ -82,7 +82,7 @@ server.get('Show', cache.applyShortPromotionSensitiveCache, consentTracking.cons
     var searchHelper = require('*/cartridge/scripts/helpers/searchHelpers');
 
     if (req.querystring.cgid) {
-        var pageLookupResult = searchHelper.getPageDesignerPage(req.querystring.cgid);
+        var pageLookupResult = searchHelper.getPageDesignerCategoryPage(req.querystring.cgid);
 
         if ((pageLookupResult.page && pageLookupResult.page.hasVisibilityRules()) || pageLookupResult.invisiblePage) {
             // the result may be different for another user, do not cache on this level
