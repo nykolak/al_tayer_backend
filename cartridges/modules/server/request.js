@@ -324,10 +324,17 @@ function Request(request, customer, session) {
     this.setLocale = function (localeID) {
         return request.setLocale(localeID);
     };
+    this.raw = request;
 
     Object.defineProperty(this, 'session', {
         get: function () {
             return getSessionObject(session);
+        }
+    });
+    
+    Object.defineProperty(this, 'httpParameterMap', {
+        get: function () {
+            return request.httpParameterMap;
         }
     });
 

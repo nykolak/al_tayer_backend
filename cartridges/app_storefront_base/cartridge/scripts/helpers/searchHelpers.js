@@ -7,7 +7,7 @@
  * @param {Object} params - Provided HTTP query parameters
  * @return {dw.catalog.ProductSearchModel} - API search instance
  */
-function setupSearch(apiProductSearch, params) {
+function setupSearch(apiProductSearch, params, httpParameterMap) {
     var CatalogMgr = require('dw/catalog/CatalogMgr');
     var searchModelHelper = require('*/cartridge/scripts/search/search');
 
@@ -15,7 +15,7 @@ function setupSearch(apiProductSearch, params) {
     var selectedCategory = CatalogMgr.getCategory(params.cgid);
     selectedCategory = selectedCategory && selectedCategory.online ? selectedCategory : null;
 
-    searchModelHelper.setProductProperties(apiProductSearch, params, selectedCategory, sortingRule);
+    searchModelHelper.setProductProperties(apiProductSearch, params, selectedCategory, sortingRule, httpParameterMap);
 
     if (params.preferences) {
         searchModelHelper.addRefinementValues(apiProductSearch, params.preferences);
@@ -95,7 +95,11 @@ function search(req, res) {
         return { searchRedirect: searchRedirect.getLocation() };
     }
 
-    apiProductSearch = setupSearch(apiProductSearch, req.querystring);
+    var test = req.querystring;
+    var test2 = req.form.pmin;
+    var test3 = req.httpParameterMap;
+
+    apiProductSearch = setupSearch(apiProductSearch, req.querystring, req.httpParameterMap);
     apiProductSearch.search();
 
     if (!apiProductSearch.personalizedSort) {
