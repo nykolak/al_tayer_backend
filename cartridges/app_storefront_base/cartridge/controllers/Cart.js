@@ -819,6 +819,7 @@ server.post('EditProductLineItem', function (req, res, next) {
     var canBeUpdated = false;
     var perpetual = false;
     var bundleItems;
+    var product = ProductMgr.getProduct(productId);
 
     if (requestLineItem) {
         if (requestLineItem.product.bundle) {
@@ -839,7 +840,8 @@ server.post('EditProductLineItem', function (req, res, next) {
                     (quantityToUpdate >= minOrderQuantity);
             });
         } else {
-            availableToSell = requestLineItem.product.availabilityModel.inventoryRecord.ATS.value;
+            // availableToSell = requestLineItem.product.availabilityModel.inventoryRecord.ATS.value;
+            availableToSell = product.availabilityModel.inventoryRecord.ATS.value;
             perpetual = requestLineItem.product.availabilityModel.inventoryRecord.perpetual;
             qtyAlreadyInCart = cartHelper.getQtyAlreadyInCart(
                 productId,
