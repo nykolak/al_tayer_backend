@@ -15,6 +15,7 @@ module.exports.render = function (context) {
     var model = new HashMap();
     var page = context.page;
     model.page = page;
+    model.content = context.content;
 
     // automatically register configured regions
     var metaDefinition = require('*/cartridge/experience/pages/storePage.json');
