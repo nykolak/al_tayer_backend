@@ -42,6 +42,7 @@ module.exports.render = function (context, modelIn) {
     );
     model.productSearch = productSearch;
     model.apiProductSearch = apiProductSearch;
+    model.maxSlots = 4;
 
     // Component Regions
     var gridCol = '4';
