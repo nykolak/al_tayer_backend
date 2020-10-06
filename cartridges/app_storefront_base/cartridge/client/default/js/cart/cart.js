@@ -88,12 +88,17 @@ function updateCartTotals(data) {
     }
 
     data.items.forEach(function (item) {
+        if (data.totals.orderLevelDiscountTotal.value > 0) {
+            $('.coupons-and-promos').empty().append(data.totals.discountsHtml);
+        }
         if (item.renderedPromotions) {
             $('.item-' + item.UUID).empty().append(item.renderedPromotions);
+        } else {
+            $('.item-' + item.UUID).empty();
         }
-        if (item.priceTotal && item.priceTotal.renderedPrice) {
-            $('.item-total-' + item.UUID).empty().append(item.priceTotal.renderedPrice);
-        }
+        $('.uuid-' + item.UUID + ' .price').empty().append(item.renderedPrice);
+        $('.line-item-price-' + item.UUID + ' .price').empty().append(item.renderedPrice);
+        $('.item-total-' + item.UUID).empty().append(item.priceTotal.renderedPrice);
     });
 }
 
