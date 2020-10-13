@@ -56,7 +56,7 @@ function updateAddressFields(newAddress, address) {
     newAddress.setCompanyName(address.companyName || '');
     newAddress.setSuffix(address.suffix || '');
     newAddress.setSuite(address.suite || '');
-    newAddress.setTitle(address.title || '');
+    newAddress.setJobTitle(address.title || '');
 }
 
 /**
