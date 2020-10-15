@@ -24,10 +24,10 @@ function setProductProperties(productSearch, httpParams, selectedCategory, sorti
     if (httpParams.pid) {
         productSearch.setProductIDs([httpParams.pid]);
     }
-    if (httpParameterMap.pmin) {
+    if (httpParameterMap && httpParameterMap.pmin) {
         productSearch.setPriceMin(httpParameterMap.pmin.doubleValue);
     }
-    if (httpParameterMap.pmax) {
+    if (httpParameterMap && httpParameterMap.pmax) {
         productSearch.setPriceMax(httpParameterMap.pmax.doubleValue);
     }
     if (httpParams.pmid) {
