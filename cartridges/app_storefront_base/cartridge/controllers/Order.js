@@ -308,6 +308,7 @@ server.post(
 
         if (passwordForm.valid) {
             res.setViewData(registrationObj);
+            res.setViewData({ passwordForm: passwordForm });
 
             this.on('route:BeforeComplete', function (req, res) { // eslint-disable-line no-shadow
                 var CustomerMgr = require('dw/customer/CustomerMgr');
@@ -360,6 +361,9 @@ server.post(
                             allAddresses.forEach(function (address) {
                                 addressHelpers.saveAddress(address, { raw: newCustomer }, addressHelpers.generateAddressName(address));
                             });
+
+                            res.setViewData({ newCustomer: newCustomer });
+                            res.setViewData({ order: order });
                         }
                     });
                 } catch (e) {
