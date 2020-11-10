@@ -736,6 +736,7 @@ server.post('PasswordResetDialogForm', server.middleware.https, function (req, r
  * Account-PasswordReset : The Account-PasswordReset endpoint renders the forgot your password form that allows a shopper to submit their email address in order to request a password change
  * @name Base/Account-PasswordReset
  * @function
+ * @memberof Account
  * @param {middleware} - server.middleware.https
  * @param {category} - sensitive
  * @param {renders} - isml
@@ -750,6 +751,7 @@ server.get('PasswordReset', server.middleware.https, function (req, res, next) {
  * Account-SetNewPassword : The Account-SetNewPassword endpoint renders the page that displays the password reset form
  * @name Base/Account-SetNewPassword
  * @function
+ * @memberof Account
  * @param {middleware} - server.middleware.https
  * @param {middleware} - consentTracking.consent
  * @param {querystringparameter} - Token - SFRA utilizes this token to retrieve the shopper
@@ -777,6 +779,7 @@ server.get('SetNewPassword', server.middleware.https, consentTracking.consent, f
  * Account-SaveNewPassword : The Account-SaveNewPassword endpoint handles resetting a shoppers password. This is the last step in the forgot password user flow. (This step does not log the shopper in.)
  * @name Base/Account-SaveNewPassword
  * @function
+ * @memberof Account
  * @param {middleware} - server.middleware.https
  * @param {querystringparameter} - Token - SFRA utilizes this token to retrieve the shopper
  * @param {httpparameter} - dwfrm_newPasswords_newpassword - Input field for the shopper's new password
@@ -863,6 +866,7 @@ server.post('SaveNewPassword', server.middleware.https, function (req, res, next
  * Account-Header : The Account-Header endpoint is used as a remote include to include the login/account menu in the header
  * @name Base/Account-Header
  * @function
+ * @memberof Account
  * @param {middleware} - server.middleware.include
  * @param {querystringparameter} - mobile - a flag determining whether or not the shopper is on a mobile sized screen this determines what isml template to render
  * @param {category} - sensitive
