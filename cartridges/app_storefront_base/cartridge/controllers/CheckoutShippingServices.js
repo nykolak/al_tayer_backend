@@ -246,7 +246,7 @@ server.post('SelectShippingMethod', server.middleware.https, function (req, res,
  * @param {httpparameter} - address1 - shipping address input field, address line 1
  * @param {httpparameter} - address2 - shipping address nput field address line 2
  * @param {httpparameter} - city - shipping address input field, city
- * @param {httpparameter} - postalCode -  shipping address input field, postal code (or zipcode) 
+ * @param {httpparameter} - postalCode -  shipping address input field, postal code (or zipcode)
  * @param {httpparameter} - stateCode - shipping address input field, state code (Not all locales have state code)
  * @param {httpparameter} - countryCode -  shipping address input field, country
  * @param {httpparameter} - phone - shipping address input field, shopper's phone number

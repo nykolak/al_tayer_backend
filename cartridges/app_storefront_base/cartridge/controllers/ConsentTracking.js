@@ -1,8 +1,21 @@
 'use strict';
 
+/**
+ * @namespace ConsentTracking
+ */
+
 var server = require('server');
 var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
 
+/**
+ * ConsentTracking-SetSession : This endpoint is called when the shopper agrees/disagrees to tracking consent
+ * @name Base/ConsentTracking-SetSession
+ * @function
+ * @memberof ConsentTracking-SetSession
+ * @param {querystringparameter} - consent -  The value of this is a boolean. If the boolean value is true, tracking is enabled for the current session; if false, tracking is disabled
+ * @param {category} - sensitive
+ * @param {serverfunction} - get
+ */
 server.get('SetSession', function (req, res, next) {
     var consent = (req.querystring.consent === 'true');
     req.session.raw.setTrackingAllowed(consent);
@@ -11,6 +24,9 @@ server.get('SetSession', function (req, res, next) {
     next();
 });
 
+/**
+ * 
+ */
 server.get('GetContent', function (req, res, next) {
     var ContentMgr = require('dw/content/ContentMgr');
     var ContentModel = require('*/cartridge/models/content');
