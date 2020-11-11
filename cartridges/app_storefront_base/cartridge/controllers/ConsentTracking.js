@@ -11,7 +11,7 @@ var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
  * ConsentTracking-SetSession : This endpoint is called when the shopper agrees/disagrees to tracking consent
  * @name Base/ConsentTracking-SetSession
  * @function
- * @memberof ConsentTracking-SetSession
+ * @memberof ConsentTracking
  * @param {querystringparameter} - consent -  The value of this is a boolean. If the boolean value is true, tracking is enabled for the current session; if false, tracking is disabled
  * @param {category} - sensitive
  * @param {serverfunction} - get
@@ -25,7 +25,13 @@ server.get('SetSession', function (req, res, next) {
 });
 
 /**
- * 
+ * ConsentTracking-GetContent : This endpoint is called to load the consent tracking content
+ * @name Base/ConsentTracking-GetContent
+ * @function
+ * @memberof ConsentTracking
+ * @param {querystringparameter} - cid -  The value of this is a string. This is the internal ID of the content asset used for consent message
+ * @param {category} - sensitive
+ * @param {serverfunction} - get
  */
 server.get('GetContent', function (req, res, next) {
     var ContentMgr = require('dw/content/ContentMgr');
@@ -42,6 +48,15 @@ server.get('GetContent', function (req, res, next) {
     next();
 });
 
+/**
+ * ConsentTracking-Check : This endpoint is called every time a storefront page is rendered
+ * @name Base/ConsentTracking-Check
+ * @function
+ * @memberof ConsentTracking
+ * @param {middleware} - consentTracking.consent
+ * @param {category} - sensitive
+ * @param {serverfunction} - get
+ */
 server.get('Check', consentTracking.consent, function (req, res, next) {
     var ContentMgr = require('dw/content/ContentMgr');
     var content = ContentMgr.getContent('tracking_hint');
