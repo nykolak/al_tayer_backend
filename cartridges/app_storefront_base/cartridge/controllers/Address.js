@@ -340,6 +340,7 @@ server.get('SetDefault', userLoggedIn.validateLoggedIn, function (req, res, next
  * Address-Header : The endpoint Address-Header renders an isml
  * @name Base/Address-Header
  * @function
+ * @memberof Address
  * @param {middleware} - server.middleware.include
  * @param {category} - sensitive
  * @param {renders} - isml
