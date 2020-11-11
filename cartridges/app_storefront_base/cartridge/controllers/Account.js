@@ -81,7 +81,7 @@ server.get(
  * @param {httpparameter} - loginPassword - The shopper's password
  * @param {httpparameter} - loginRememberMe - Whether or not the customer has decided to utilize the remember me feature.
  * @param {httpparameter} - csrf_token - a CSRF token
- * @param {category} - senstive
+ * @param {category} - sensitive
  * @param {renders} - json
  * @param {serverfunction} - post
  *
