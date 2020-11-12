@@ -157,7 +157,7 @@ function updateBillingAddressAndPartsSummary(order) {
     $('.order-summary-email').text(order.orderEmail);
 
     if (order.billing.billingAddress.address) {
-    $('.order-summary-phone').text(order.billing.billingAddress.address.phone);
+        $('.order-summary-phone').text(order.billing.billingAddress.address.phone);
     }
 }
 
@@ -220,9 +220,9 @@ module.exports = {
         updateBillingInformation: updateBillingInformation,
         updatePaymentInformation: updatePaymentInformation,
         clearCreditCardForm: clearCreditCardForm,
-        updateBillingAddress:updateBillingAddress,
-        validateAndUpdateBillingPaymentInstrument:validateAndUpdateBillingPaymentInstrument,
-        updateBillingAddressAndPartsSummary:updateBillingAddressAndPartsSummary
+        updateBillingAddress: updateBillingAddress,
+        validateAndUpdateBillingPaymentInstrument: validateAndUpdateBillingPaymentInstrument,
+        updateBillingAddressAndPartsSummary: updateBillingAddressAndPartsSummary
     },
 
     showBillingDetails: function () {
