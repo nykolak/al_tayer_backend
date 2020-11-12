@@ -14,8 +14,8 @@ var HashMap = require('dw/util/HashMap');
  * @name Base/EinsteinCarousel-Load
  * @function
  * @memberof EinsteinCarousel
- * @param {querystring} - limit - a number representing the max number of recommendations that are being request for displaying in the carousel
- * @param {querystring} - components - an array of objects that represent attributes configured in the BM for this page designer component
+ * @param {querystringparameter} - limit - a number representing the max number of recommendations that are being request for displaying in the carousel
+ * @param {querystringparameter} - components - an array of objects that represent attributes configured in the BM for this page designer component
  * @param {category} - non-sensitive
  * @param {serverfunction} - get
  */
