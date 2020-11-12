@@ -75,10 +75,10 @@ function updateBillingAddressSelector(order, customer) {
 }
 
 /**
- * updates the billing address form values within payment forms
+ * updates the billing address form values within payment forms without any payment instrument validation
  * @param {Object} order - the order model
  */
-function updateBillingAddressFormValues(order) {
+function updateBillingAddress(order) {
     var billing = order.billing;
     if (!billing.billingAddress || !billing.billingAddress.address) return;
 
@@ -96,6 +96,18 @@ function updateBillingAddressFormValues(order) {
     $('select[name$=_country]', form).val(billing.billingAddress.address.countryCode.value);
     $('input[name$=_phone]', form).val(billing.billingAddress.address.phone);
     $('input[name$=_email]', form).val(order.orderEmail);
+}
+
+/**
+ * validate and update payment instrument form fields
+ * @param {Object} order - the order model
+ */
+function validateAndUpdateBillingPaymentInstrument(order) {
+    var billing = order.billing;
+    if (!billing.billingAddress || !billing.billingAddress.address) return;
+
+    var form = $('form[name=dwfrm_billing]');
+    if (!form) return;
 
     if (billing.payment && billing.payment.selectedPaymentInstruments
         && billing.payment.selectedPaymentInstruments.length > 0) {
@@ -106,6 +118,15 @@ function updateBillingAddressFormValues(order) {
         $('input[name$=securityCode]', form).val('');
         $('input[name$=cardNumber]').data('cleave').setRawValue('');
     }
+}
+
+/**
+ * updates the billing address form values within payment forms
+ * @param {Object} order - the order model
+ */
+function updateBillingAddressFormValues(order) {
+    updateBillingAddress(order);
+    validateAndUpdateBillingPaymentInstrument(order);
 }
 
 /**
@@ -124,6 +145,23 @@ function clearBillingAddressFormValues() {
 }
 
 /**
+ * update billing address summary and billing parts of order summary
+ * @param {Object} order - checkout model to use as basis of new truth
+ */
+function updateBillingAddressAndPartsSummary(order) {
+    // update billing address summary
+    addressHelpers.methods.populateAddressSummary('.billing .address-summary',
+        order.billing.billingAddress.address);
+
+    // update billing parts of order summary
+    $('.order-summary-email').text(order.orderEmail);
+
+    if (order.billing.billingAddress.address) {
+    $('.order-summary-phone').text(order.billing.billingAddress.address.phone);
+    }
+}
+
+/**
  * Updates the billing information in checkout, based on the supplied order model
  * @param {Object} order - checkout model to use as basis of new truth
  * @param {Object} customer - customer model to use as basis of new truth
@@ -135,16 +173,8 @@ function updateBillingInformation(order, customer) {
     // update billing address form
     updateBillingAddressFormValues(order);
 
-    // update billing address summary
-    addressHelpers.methods.populateAddressSummary('.billing .address-summary',
-        order.billing.billingAddress.address);
-
-    // update billing parts of order summary
-    $('.order-summary-email').text(order.orderEmail);
-
-    if (order.billing.billingAddress.address) {
-        $('.order-summary-phone').text(order.billing.billingAddress.address.phone);
-    }
+    // update billing address summary and billing parts of order summary
+    updateBillingAddressAndPartsSummary(order);
 }
 
 /**
@@ -189,7 +219,10 @@ module.exports = {
         clearBillingAddressFormValues: clearBillingAddressFormValues,
         updateBillingInformation: updateBillingInformation,
         updatePaymentInformation: updatePaymentInformation,
-        clearCreditCardForm: clearCreditCardForm
+        clearCreditCardForm: clearCreditCardForm,
+        updateBillingAddress:updateBillingAddress,
+        validateAndUpdateBillingPaymentInstrument:validateAndUpdateBillingPaymentInstrument,
+        updateBillingAddressAndPartsSummary:updateBillingAddressAndPartsSummary
     },
 
     showBillingDetails: function () {
