@@ -75,7 +75,7 @@ function updateBillingAddressSelector(order, customer) {
 }
 
 /**
- * updates the billing address form values within payment forms without any payment instrument validation
+ * Updates the billing address form values within payment forms without any payment instrument validation
  * @param {Object} order - the order model
  */
 function updateBillingAddress(order) {
@@ -99,12 +99,12 @@ function updateBillingAddress(order) {
 }
 
 /**
- * validate and update payment instrument form fields
+ * Validate and update payment instrument form fields
  * @param {Object} order - the order model
  */
 function validateAndUpdateBillingPaymentInstrument(order) {
     var billing = order.billing;
-    if (!billing.billingAddress || !billing.billingAddress.address) return;
+    if (!billing.payment || !billing.payment.selectedPaymentInstruments) return;
 
     var form = $('form[name=dwfrm_billing]');
     if (!form) return;
@@ -121,7 +121,7 @@ function validateAndUpdateBillingPaymentInstrument(order) {
 }
 
 /**
- * updates the billing address form values within payment forms
+ * Updates the billing address form values within payment forms
  * @param {Object} order - the order model
  */
 function updateBillingAddressFormValues(order) {
@@ -148,7 +148,7 @@ function clearBillingAddressFormValues() {
  * update billing address summary and billing parts of order summary
  * @param {Object} order - checkout model to use as basis of new truth
  */
-function updateBillingAddressAndPartsSummary(order) {
+function updateBillingAddressSummary(order) {
     // update billing address summary
     addressHelpers.methods.populateAddressSummary('.billing .address-summary',
         order.billing.billingAddress.address);
@@ -174,7 +174,7 @@ function updateBillingInformation(order, customer) {
     updateBillingAddressFormValues(order);
 
     // update billing address summary and billing parts of order summary
-    updateBillingAddressAndPartsSummary(order);
+    updateBillingAddressSummary(order);
 }
 
 /**
@@ -222,7 +222,7 @@ module.exports = {
         clearCreditCardForm: clearCreditCardForm,
         updateBillingAddress: updateBillingAddress,
         validateAndUpdateBillingPaymentInstrument: validateAndUpdateBillingPaymentInstrument,
-        updateBillingAddressAndPartsSummary: updateBillingAddressAndPartsSummary
+        updateBillingAddressAndPartsSummary: updateBillingAddressSummary
     },
 
     showBillingDetails: function () {
