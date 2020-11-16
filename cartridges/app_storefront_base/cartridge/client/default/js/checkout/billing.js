@@ -104,7 +104,7 @@ function updateBillingAddress(order) {
  */
 function validateAndUpdateBillingPaymentInstrument(order) {
     var billing = order.billing;
-    if (!billing.payment || !billing.payment.selectedPaymentInstruments 
+    if (!billing.payment || !billing.payment.selectedPaymentInstruments
         || billing.payment.selectedPaymentInstruments.length <= 0) return;
 
     var form = $('form[name=dwfrm_billing]');
@@ -143,7 +143,7 @@ function clearBillingAddressFormValues() {
 }
 
 /**
- * update billing address summary and billing parts of order summary
+ * update billing address summary and contact information
  * @param {Object} order - checkout model to use as basis of new truth
  */
 function updateBillingAddressSummary(order) {
@@ -220,7 +220,7 @@ module.exports = {
         clearCreditCardForm: clearCreditCardForm,
         updateBillingAddress: updateBillingAddress,
         validateAndUpdateBillingPaymentInstrument: validateAndUpdateBillingPaymentInstrument,
-        updateBillingAddressAndPartsSummary: updateBillingAddressSummary
+        updateBillingAddressSummary: updateBillingAddressSummary
     },
 
     showBillingDetails: function () {
