@@ -104,20 +104,18 @@ function updateBillingAddress(order) {
  */
 function validateAndUpdateBillingPaymentInstrument(order) {
     var billing = order.billing;
-    if (!billing.payment || !billing.payment.selectedPaymentInstruments) return;
+    if (!billing.payment || !billing.payment.selectedPaymentInstruments 
+        || billing.payment.selectedPaymentInstruments.length <= 0) return;
 
     var form = $('form[name=dwfrm_billing]');
     if (!form) return;
 
-    if (billing.payment && billing.payment.selectedPaymentInstruments
-        && billing.payment.selectedPaymentInstruments.length > 0) {
-        var instrument = billing.payment.selectedPaymentInstruments[0];
-        $('select[name$=expirationMonth]', form).val(instrument.expirationMonth);
-        $('select[name$=expirationYear]', form).val(instrument.expirationYear);
-        // Force security code and card number clear
-        $('input[name$=securityCode]', form).val('');
-        $('input[name$=cardNumber]').data('cleave').setRawValue('');
-    }
+    var instrument = billing.payment.selectedPaymentInstruments[0];
+    $('select[name$=expirationMonth]', form).val(instrument.expirationMonth);
+    $('select[name$=expirationYear]', form).val(instrument.expirationYear);
+    // Force security code and card number clear
+    $('input[name$=securityCode]', form).val('');
+    $('input[name$=cardNumber]').data('cleave').setRawValue('');
 }
 
 /**
