@@ -35,6 +35,15 @@ var productMock = {
     ID: 'someID'
 };
 
+var optionsMock = {
+    productType: 'someProductType',
+    optionModel: {},
+    quantity: 1,
+    variationModel: {},
+    promotions: [],
+    variables: []
+};
+
 describe('Product Tile Model', function () {
     var decorators = require('../../../../mocks/productDecoratorsMock');
 
@@ -71,31 +80,25 @@ describe('Product Tile Model', function () {
     });
 
     it('should call base for product tile', function () {
-        productTile(object, productMock);
+        productTile(object, productMock, null, optionsMock);
 
         assert.isTrue(decorators.stubs.stubBase.calledOnce);
     });
 
-    it('should call searchPrice for product tile', function () {
-        productTile(object, productMock);
-
-        assert.isTrue(decorators.stubs.stubSearchPrice.calledOnce);
-    });
-
     it('should call images for product tile', function () {
-        productTile(object, productMock);
+        productTile(object, productMock, null, optionsMock);
 
         assert.isTrue(decorators.stubs.stubImages.calledOnce);
     });
 
     it('should call ratings for product tile', function () {
-        productTile(object, productMock);
+        productTile(object, productMock, null, optionsMock);
 
         assert.isTrue(decorators.stubs.stubRatings.calledOnce);
     });
 
     it('should call searchVariationAttributes for product tile', function () {
-        productTile(object, productMock);
+        productTile(object, productMock, null, optionsMock);
 
         assert.isTrue(decorators.stubs.stubSearchVariationAttributes.calledOnce);
     });
@@ -114,7 +117,7 @@ describe('Product Tile Model', function () {
             },
             count: 0
         });
-        productTile(object, productMock);
+        productTile(object, productMock, null, optionsMock);
 
         assert.isTrue(decorators.stubs.stubSearchVariationAttributes.calledOnce);
     });
@@ -133,7 +136,7 @@ describe('Product Tile Model', function () {
             },
             count: 0
         });
-        productTile(object, productMock);
+        productTile(object, productMock, null, optionsMock);
 
         assert.isTrue(decorators.stubs.stubSearchVariationAttributes.calledOnce);
     });
