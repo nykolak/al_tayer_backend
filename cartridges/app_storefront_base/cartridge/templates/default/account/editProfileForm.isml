@@ -68,6 +68,8 @@
                 data-acceptText="${Resource.msg('button.consentTracking.yes', 'common', null)}"
                 data-rejectText="${Resource.msg('button.consentTracking.no', 'common', null)}"
                 data-heading="${Resource.msg('heading.consentTracking.track.consent', 'common', null)}"
+                tabindex="0"
+                role="link"
             >
                 ${Resource.msg('link.tracking.consent','account',null)}
             </span>
