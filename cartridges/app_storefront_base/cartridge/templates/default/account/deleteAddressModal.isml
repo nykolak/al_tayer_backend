@@ -1,4 +1,4 @@
-<div class="modal fade" id="deleteAddressModal" tabindex="-1" role="dialog" aria-labelledby="deleteAddressModal">
+<div class="modal fade" id="deleteAddressModal" tabindex="-1" role="dialog" aria-labelledby="deleteAddressModalTitle">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header delete-confirmation-header">
