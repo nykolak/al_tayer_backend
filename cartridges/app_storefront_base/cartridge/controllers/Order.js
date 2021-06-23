@@ -25,7 +25,7 @@ var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
  * @param {category} - sensitive
  * @param {serverfunction} - get
  */
-server.get(
+server.post(
     'Confirm',
     consentTracking.consent,
     server.middleware.https,
@@ -36,13 +36,19 @@ server.get(
         var OrderModel = require('*/cartridge/models/order');
         var Locale = require('dw/util/Locale');
 
-        var order = OrderMgr.getOrder(req.querystring.ID);
-        var token = req.querystring.token ? req.querystring.token : null;
+        var order;
 
-        if (!order
-            || !token
-            || token !== order.orderToken
-            || order.customer.ID !== req.currentCustomer.raw.ID
+        if (!req.form.orderToken || !req.form.orderID) {
+            res.render('/error', {
+                message: Resource.msg('error.confirmation.error', 'confirmation', null)
+            });
+
+            return next();
+        }
+
+        order = OrderMgr.getOrder(req.form.orderID, req.form.orderToken);
+
+        if (!order || order.customer.ID !== req.currentCustomer.raw.ID
         ) {
             res.render('/error', {
                 message: Resource.msg('error.confirmation.error', 'confirmation', null)
@@ -77,13 +83,15 @@ server.get(
                 order: orderModel,
                 returningCustomer: false,
                 passwordForm: passwordForm,
-                reportingURLs: reportingURLs
+                reportingURLs: reportingURLs,
+                orderUUID: order.getUUID()
             });
         } else {
             res.render('checkout/confirmation/confirmation', {
                 order: orderModel,
                 returningCustomer: true,
-                reportingURLs: reportingURLs
+                reportingURLs: reportingURLs,
+                orderUUID: order.getUUID()
             });
         }
         req.session.raw.custom.orderID = req.querystring.ID; // eslint-disable-line no-param-reassign
@@ -157,7 +165,7 @@ server.post(
 
             // check the email and postal code of the form
             if (req.form.trackOrderEmail.toLowerCase()
-                    !== orderModel.orderEmail.toLowerCase()) {
+                !== orderModel.orderEmail.toLowerCase()) {
                 validForm = false;
             }
 
@@ -382,6 +390,11 @@ server.post(
         }
 
         var order = OrderMgr.getOrder(req.querystring.ID);
+        if (!order || order.customer.ID !== req.currentCustomer.raw.ID || order.getUUID() !== req.querystring.UUID) {
+            res.json({ error: [Resource.msg('error.message.unable.to.create.account', 'login', null)] });
+            return next();
+        }
+
         res.setViewData({ orderID: req.querystring.ID });
         var registrationObj = {
             firstName: order.billingAddress.firstName,
@@ -457,6 +470,10 @@ server.post(
                         ? Resource.msg('error.message.unable.to.create.account', 'login', null)
                         : Resource.msg('error.message.account.create.error', 'forms', null);
                 }
+
+                delete registrationData.firstName;
+                delete registrationData.lastName;
+                delete registrationData.phone;
 
                 if (errorObj.error) {
                     res.json({ error: [errorObj.errorMessage] });
