@@ -89,10 +89,10 @@ var scrollAnimate = require('../components/scrollAnimate');
                 var defer = $.Deferred(); // eslint-disable-line
 
                 if (stage === 'customer') {
-                       //
+                    //
                     // Clear Previous Errors
                     //
-                    formHelpers.clearPreviousErrors('.customer-information-block');
+                    customerHelpers.methods.clearErrors();
                     //
                     // Submit the Customer Form
                     //
@@ -103,7 +103,11 @@ var scrollAnimate = require('../components/scrollAnimate');
                         type: 'post',
                         data: customerForm.serialize(),
                         success: function (data) {
-                            customerHelpers.methods.customerFormResponse(defer, data);
+                            if (data.redirectUrl) {
+                                window.location.href = data.redirectUrl;
+                            } else {
+                                customerHelpers.methods.customerFormResponse(defer, data);
+                            }
                         },
                         error: function (err) {
                             if (err.responseJSON && err.responseJSON.redirectUrl) {
@@ -356,18 +360,28 @@ var scrollAnimate = require('../components/scrollAnimate');
                                     defer.reject(data);
                                 }
                             } else {
-                                var continueUrl = data.continueUrl;
-                                var urlParams = {
-                                    ID: data.orderID,
-                                    token: data.orderToken
-                                };
+                                var redirect = $('<form>')
+                                    .appendTo(document.body)
+                                    .attr({
+                                        method: 'POST',
+                                        action: data.continueUrl
+                                    });
 
-                                continueUrl += (continueUrl.indexOf('?') !== -1 ? '&' : '?') +
-                                    Object.keys(urlParams).map(function (key) {
-                                        return key + '=' + encodeURIComponent(urlParams[key]);
-                                    }).join('&');
+                                $('<input>')
+                                    .appendTo(redirect)
+                                    .attr({
+                                        name: 'orderID',
+                                        value: data.orderID
+                                    });
 
-                                window.location.href = continueUrl;
+                                $('<input>')
+                                    .appendTo(redirect)
+                                    .attr({
+                                        name: 'orderToken',
+                                        value: data.orderToken
+                                    });
+
+                                redirect.submit();
                                 defer.resolve(data);
                             }
                         },
