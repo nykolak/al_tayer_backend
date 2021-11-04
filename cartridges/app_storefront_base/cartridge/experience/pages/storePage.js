@@ -1,4 +1,5 @@
 'use strict';
+/* global request, response */
 
 var Template = require('dw/util/Template');
 var HashMap = require('dw/util/HashMap');
@@ -14,6 +15,17 @@ var PageRenderHelper = require('*/cartridge/experience/utilities/PageRenderHelpe
  */
 module.exports.render = function (context, modelIn) {
     var model = modelIn || new HashMap();
+
+    var renderParams = {};
+    try {
+        renderParams = JSON.parse(context.runtimeParameters);
+    } catch (e) {
+        // TODO this should never happen, maybe log an error if it does?, but try to continue without the params
+    }
+
+    model.action = renderParams.action;
+    model.queryString = renderParams.queryString;
+    model.locale = renderParams.locale;
 
     var page = context.page;
     model.page = page;
