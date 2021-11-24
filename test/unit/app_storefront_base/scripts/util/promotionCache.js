@@ -20,7 +20,7 @@ const PromotionCache = proxyquire('../../../../../cartridges/app_storefront_base
     '*/cartridge/scripts/util/collections': collections,
 });
 
-describe.only('promotionCache', () => {
+describe('promotionCache', () => {
     afterEach(() => {
         delete global.session;
         delete global.request;
