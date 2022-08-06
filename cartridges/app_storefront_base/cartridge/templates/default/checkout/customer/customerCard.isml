@@ -16,6 +16,9 @@
                 </div>
             </div>
             <isif condition="${!pdict.customer.registeredUser}">
+                <button class="btn btn-primary btn-block submit-link" type="submit" name="link-submit" value="submit-link">
+                    ${Resource.msg('Checkout with Link')}
+                </button>
                 <button class="btn btn-primary btn-block submit-customer" type="submit" name="submit" value="submit-customer">
                     ${Resource.msg('button.guest.customer.continue', 'checkout', null)}
                 </button>
