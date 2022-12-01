@@ -5,6 +5,7 @@ on:
         inputs:
             NODE_VERSION:
                 required: true
+                type: string
 
 jobs:
     build:
