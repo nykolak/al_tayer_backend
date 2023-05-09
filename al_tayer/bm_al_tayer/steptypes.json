@@ -6,7 +6,6 @@
 				"@supports-parallel-execution": "false",
 				"@supports-site-context": "true",
 				"@supports-organization-context": "false",
-				"description": "Add description",
 				"module": "bm_al_tayer/cartridge/scripts/jobs/demoReview.js",
 				"function": "execute",
 				"transactional": "false",
