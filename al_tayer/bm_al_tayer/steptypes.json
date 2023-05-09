@@ -1,0 +1,39 @@
+{
+	"step-types": {
+		"script-module-step": [
+			{
+				"@type-id": "custom.OrderStatus-Update",
+				"@supports-parallel-execution": "true",
+				"@supports-site-context": "true",
+				"@supports-organization-context": "false",
+				"module": "bm_al_tayer/cartridge/scripts/jobs/updateOrders.js",
+				"function": "execute",
+				"transactional": "false",
+				"timeout-in-seconds": "1000",
+				"parameters": {
+					"parameter": [
+						{
+							"@name": "Enabled",
+							"@type": "boolean",
+							"@required": "false",
+							"@trim": "false",
+							"description": "If enabled, this step will be executed"
+						}
+					]
+				},
+				"status-codes": {
+					"status": [
+						{
+							"@code": "OK",
+							"description": "Used when everything went OK."
+						},
+						{
+							"@code": "ERROR",
+							"description": "Used when an error occurred."
+						}
+					]
+				}
+			}
+		]
+	}
+}
