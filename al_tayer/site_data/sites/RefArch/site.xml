@@ -3,7 +3,7 @@
     <name>RefArch</name>
     <currency>USD</currency>
     <taxation>net</taxation>
-    <custom-cartridges>app_storefront_base</custom-cartridges>
+    <custom-cartridges>app_al_tayer:app_storefront_base</custom-cartridges>
     <storefront-status>online</storefront-status>
     <home-page-meta-tag-rules>
         <page-meta-tag-rule rule-id="Homepage Title"/>
