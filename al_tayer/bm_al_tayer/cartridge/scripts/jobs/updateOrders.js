@@ -20,15 +20,15 @@ function execute(args) {
 
     while (allOrderCustomObjects.hasNext()) {
         try {
-            var orderCutomObject = allOrderCustomObjects.next();
-            var orderID = orderCutomObject.custom.orderID.split('-')[0];
+            var orderCustomObject = allOrderCustomObjects.next();
+            var orderID = orderCustomObject.custom.orderID.split('-')[0];
             var order = OrderMgr.getOrder(orderID);
             Transaction.wrap(function () {
-                if (!empty(orderCutomObject.custom.orderStatus)) {
-                    order.setStatus(orderCutomObject.custom.orderStatus);
+                if (!empty(orderCustomObject.custom.orderStatus)) {
+                    order.setStatus(orderCustomObject.custom.orderStatus);
                 }
-                if (!empty(orderCutomObject.custom.shipments)) {
-                    JSON.parse(orderCutomObject.custom.shipments).forEach(function (customObjectShipment) {
+                if (!empty(orderCustomObject.custom.shipments)) {
+                    JSON.parse(orderCustomObject.custom.shipments).forEach(function (customObjectShipment) {
                         var shipmentID = customObjectShipment.shipmentNo;
                         var shipmentStatus = customObjectShipment.status;
 
@@ -71,7 +71,7 @@ function execute(args) {
                 }
 
                 // Delete custom object after it's successfully processed
-                CustomObjectMgr.remove(orderCutomObject);
+                CustomObjectMgr.remove(orderCustomObject);
             });
         } catch (error) {
             hasError = true;
