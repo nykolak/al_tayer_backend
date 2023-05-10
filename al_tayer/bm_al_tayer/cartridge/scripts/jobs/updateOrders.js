@@ -34,7 +34,7 @@ function execute(args) {
                         var shipmentStatus = customObjectShipmentValues[1];
 
                         // Update the shipment shipping status
-                        var orderShipment = order.getShipment('me'); //zasto je ovo me? :D
+                        var orderShipment = order.getShipment(shipmentID);
                         orderShipment.setShippingStatus(shipmentStatus);
 
                         // Update the external inventory management system
