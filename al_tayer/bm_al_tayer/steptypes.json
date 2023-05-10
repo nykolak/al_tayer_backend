@@ -1,0 +1,46 @@
+{
+	"step-types": {
+		"script-module-step": [
+			{
+				"@type-id": "custom.DemoReview-Import",
+				"@supports-parallel-execution": "false",
+				"@supports-site-context": "true",
+				"@supports-organization-context": "false",
+				"module": "bm_al_tayer/cartridge/scripts/jobs/demoReview.js",
+				"function": "execute",
+				"transactional": "false",
+				"timeout-in-seconds": "10000",
+				"parameters": {
+					"parameter": [
+						{
+							"@name": "Enabled",
+							"@type": "boolean",
+							"@required": "false",
+							"@trim": "false",
+							"description": "If enabled, this step will be executed"
+						},
+						{
+							"@name": "DemoMode",
+							"description": "If enabled, job will only update first 10 products",
+							"@type": "boolean",
+							"@required": "false",
+							"default-value": "false"
+						}
+					]
+				},
+				"status-codes": {
+					"status": [
+						{
+							"@code": "OK",
+							"description": "Used when everything went OK."
+						},
+						{
+							"@code": "ERROR",
+							"description": "Used when an error occurred."
+						}
+					]
+				}
+			}
+		]
+	}
+}

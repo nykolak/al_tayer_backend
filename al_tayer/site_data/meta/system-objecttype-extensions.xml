@@ -3593,6 +3593,28 @@
                 <externally-defined-flag>false</externally-defined-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="averageRating">
+                <display-name xml:lang="x-default">Average Rating</display-name>
+                <type>double</type>
+                <localizable-flag>false</localizable-flag>
+                <site-specific-flag>false</site-specific-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <visible-flag>false</visible-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <order-required-flag>false</order-required-flag>
+                <externally-defined-flag>false</externally-defined-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="reviewCount">
+            <display-name xml:lang="x-default">Review Count</display-name>
+                <type>int</type>
+                <localizable-flag>false</localizable-flag>
+                <site-specific-flag>false</site-specific-flag>
+                <mandatory-flag>false</mandatory-flag>
+                <visible-flag>false</visible-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <order-required-flag>false</order-required-flag>
+                <externally-defined-flag>false</externally-defined-flag>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="ExternalSearch">
@@ -3659,6 +3681,11 @@
                 <attribute attribute-id="isNewtest"/>
                 <attribute attribute-id="sheets"/>
                 <attribute attribute-id="isSale"/>
+            </attribute-group>
+            <attribute-group group-id="rating">
+                <display-name xml:lang="x-default">Rating</display-name>
+                <attribute attribute-id="reviewCount"/>
+                <attribute attribute-id="averageRating"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

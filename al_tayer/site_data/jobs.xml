@@ -53,4 +53,42 @@
         </triggers>
     </job>
 
+    <job job-id="Update Products with Review Count and Average Ratings" priority="0">
+        <description/>
+        <parameters/>
+        <flow>
+            <context site-id="RefArch"/>
+            <step step-id="Update Products with Review Count and Average Ratings" type="custom.DemoReview-Import" enforce-restart="false">
+                <description>This job step queries for all site products and updates them with Review Count and Average Ratings based on DemoReview service response.</description>
+                <parameters>
+                    <parameter name="Enabled">true</parameter>
+                    <parameter name="DemoMode">true</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules>
+            <on-running runtime-threshold="60m" enabled="true">
+                <mark-job-as-hanging/>
+            </on-running>
+        </rules>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2023-05-08Z</date-from>
+                    <start-time>04:00:00.000Z</start-time>
+                    <interval>1d</interval>
+                    <day-of-week>
+                        <weekday>Sunday</weekday>
+                        <weekday>Friday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Monday</weekday>
+                        <weekday>Saturday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Wednesday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
 </jobs>

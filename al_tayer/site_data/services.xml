@@ -1,2 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<services xmlns="http://www.demandware.com/xml/impex/services/2014-09-26"/>
+<services xmlns="http://www.demandware.com/xml/impex/services/2014-09-26">
+    <service-credential service-credential-id="http.get.demoReview">
+        <url>www.test.com</url>
+        <user-id>test@test.com</user-id>
+        <password encrypted="true" encryption-type="common.export">mv+JglzHdsUONPxbK/CEsDnDdlJ3Lx+4p7A3dzKKL50mAPzoV182owMmXyBLNpSt</password>
+    </service-credential>
+
+    <service-profile service-profile-id="bm_al_tayer.http.get.demoReview">
+        <timeout-millis>1000</timeout-millis>
+        <rate-limit-enabled>false</rate-limit-enabled>
+        <rate-limit-calls>0</rate-limit-calls>
+        <rate-limit-millis>0</rate-limit-millis>
+        <cb-enabled>false</cb-enabled>
+        <cb-calls>0</cb-calls>
+        <cb-millis>0</cb-millis>
+    </service-profile>
+
+    <service service-id="bm_al_tayer.http.get.demoReview">
+        <service-type>HTTP</service-type>
+        <enabled>true</enabled>
+        <log-prefix/>
+        <comm-log-enabled>false</comm-log-enabled>
+        <force-prd-enabled>true</force-prd-enabled>
+        <mock-mode-enabled>true</mock-mode-enabled>
+        <profile-id>bm_al_tayer.http.get.demoReview</profile-id>
+        <credential-id>http.get.demoReview</credential-id>
+    </service>
+
+</services>
