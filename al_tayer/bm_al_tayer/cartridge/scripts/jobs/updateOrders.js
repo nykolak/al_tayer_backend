@@ -40,13 +40,11 @@ function execute(args) {
                         orderShipment.setShippingStatus(shipmentStatus);
 
                         // Update the external inventory management system
-                        var requestData = [];
-                        collections.forEach(orderShipment.productLineItems, function (productLineItem) {
-                            requestData.push(
-                                {
-                                    'productID': productLineItem.productID,
-                                    'amount': productLineItem.quantityValue
-                                });
+                        var requestData = collections.map(orderShipment.productLineItems, function (productLineItem) {
+                            return ({
+                                'productID': productLineItem.productID,
+                                'amount': productLineItem.quantityValue
+                            });
                         });
                         var serviceResponse = DemoInventoryService.reduceStock().call(requestData);
                         if (!serviceResponse.ok) {
