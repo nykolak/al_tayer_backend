@@ -31,11 +31,12 @@ server.post('Update', server.middleware.https, authorization.ensureBasicAuth, fu
     var CustomObjectMgr = require('dw/object/CustomObjectMgr');
 
     var logger = Logger.getLogger('OrderUpdates', 'orderUpdates');
-    var orderID = req.form.orderID;
-    var orderStatus = req.form.orderStatus;
-    var shippingStatus = req.form.shippingStatus;
+    var requestData = JSON.parse(req.httpParameterMap.requestBodyAsString);
+    var orderID = requestData.orderID;
+    var orderStatus = requestData.orderStatus;
+    var shipments = requestData.shipments;
 
-    if (!empty(orderID) && (!empty(orderStatus) || !empty(shippingStatus))) {
+    if (!empty(orderID) && (!empty(orderStatus) || !empty(shipments))) {
         var order = OrderMgr.getOrder(orderID);
         if (empty(order)) {
             logger.fatal('Notification for not existing order {0} received.', orderID);
@@ -53,13 +54,12 @@ server.post('Update', server.middleware.https, authorization.ensureBasicAuth, fu
                 if (!empty(orderStatus)) {
                     customObject.custom.orderStatus = new Number(orderStatus);
                 }
-                if (!empty(shippingStatus)) {
-                    customObject.custom.shippingStatus = new Array(shippingStatus);
+                if (!empty(shipments)) {
+                    customObject.custom.shipments = JSON.stringify(shipments);
                 }
             });
         } catch (error) {
             logger.fatal('Error when create a notification for order {0} due to: {1}', orderID, error.message);
-            var a = error.message;
             res.json({
                 'error': true,
                 'errorMessage': 'The server encountered an unexpected condition that prevented it from fulfilling the request.'

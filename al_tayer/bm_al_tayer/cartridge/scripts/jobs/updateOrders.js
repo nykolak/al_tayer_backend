@@ -27,14 +27,16 @@ function execute(args) {
                 if (!empty(orderCutomObject.custom.orderStatus)) {
                     order.setStatus(orderCutomObject.custom.orderStatus);
                 }
-                if (!empty(orderCutomObject.custom.shippingStatus)) {
-                    orderCutomObject.custom.shippingStatus.forEach(function (customObjectShipment) {
-                        var customObjectShipmentValues = customObjectShipment.split('|');
-                        var shipmentID = customObjectShipmentValues[0];
-                        var shipmentStatus = customObjectShipmentValues[1];
+                if (!empty(orderCutomObject.custom.shipments)) {
+                    JSON.parse(orderCutomObject.custom.shipments).forEach(function (customObjectShipment) {
+                        var shipmentID = customObjectShipment.shipmentNo;
+                        var shipmentStatus = customObjectShipment.status;
 
                         // Update the shipment shipping status
-                        var orderShipment = order.getShipment(shipmentID);
+                        var orderShipments = order.getShipments();
+                        var orderShipment = collections.find(orderShipments, function (shipment) {
+                            return shipment.shipmentNo === shipmentID;
+                        });
                         orderShipment.setShippingStatus(shipmentStatus);
 
                         // Update the external inventory management system
@@ -52,7 +54,6 @@ function execute(args) {
                         }
 
                         // Update the order shipping status
-                        var orderShipments = order.getShipments();
                         var numberOfShippedShippments = 0;
                         collections.forEach(orderShipments, function (orderShipment) {
                             if (orderShipment.shippingStatus.value === dw.order.Shipment.SHIPPING_STATUS_SHIPPED) {
