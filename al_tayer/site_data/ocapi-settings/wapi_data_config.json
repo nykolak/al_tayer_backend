@@ -1,0 +1,26 @@
+{
+	"_v": "23.2",
+	"clients": [
+		{
+			"client_id": "c1df1b54-fbfd-4f9c-863b-1778a3531b3f",
+			"resources": [
+				{
+					"resource_id": "/products/**",
+					"methods": [
+						"delete"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)"
+				},
+				{
+					"resource_id": "/inventory_lists/**",
+					"methods": [
+						"patch"
+					],
+					"read_attributes": "(**)",
+					"write_attributes": "(**)"
+				}
+			]
+		}
+	]
+}
