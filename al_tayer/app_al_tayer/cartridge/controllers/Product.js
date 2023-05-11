@@ -98,7 +98,7 @@ server.post('Delete', server.middleware.https, authorization.ensureBasicAuth, fu
  * @param {returns} - json
  * @param {serverfunction} - post
  */
-server.post('UpdateInventory', authorization.ensureBasicAuth, function (req, res, next) {
+server.post('UpdateInventory', server.middleware.https, authorization.ensureBasicAuth, function (req, res, next) {
     var Logger = require('dw/system/Logger');
     var StringUtils = require('dw/util/StringUtils');
     var ocapiHelper = require('*/cartridge/scripts/helpers/ocapiHelper');
