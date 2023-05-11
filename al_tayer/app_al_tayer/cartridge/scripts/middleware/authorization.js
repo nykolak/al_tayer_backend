@@ -16,15 +16,8 @@ function ensureBasicAuth(req, res, next) {
     var baHeader = request.httpHeaders.authorization;
     var basicPrefix = 'Basic';
 
-    if (baUser && baPassword && baHeader && baHeader.indexOf(basicPrefix) === 0) {
-        // Authorization: Basic base64credentials
-        var base64Credentials = baHeader.substring(basicPrefix.length).trim();
-        var credentials = StringUtils.decodeBase64(base64Credentials); // credentials = username:password
-
-        var values = credentials.split(':', 2);
-        if (values[0] === baUser && values[1] === baPassword) {
-            return next();
-        }
+    if (([basicPrefix, StringUtils.encodeBase64([baUser, baPassword].join(':'))].join(' ')) === baHeader) {
+        return next();
     }
 
     res.json({
