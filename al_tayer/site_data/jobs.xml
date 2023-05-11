@@ -53,4 +53,41 @@
         </triggers>
     </job>
 
+    <job job-id="Update Order Statuses" priority="0">
+        <description/>
+        <parameters/>
+        <flow>
+            <context site-id="RefArch"/>
+            <step step-id="Update Order Statuses" type="custom.OrderStatus-Update" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="Enabled">true</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules>
+            <on-running runtime-threshold="60m" enabled="true">
+                <mark-job-as-hanging/>
+            </on-running>
+        </rules>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2023-05-10Z</date-from>
+                    <start-time>04:51:00.000Z</start-time>
+                    <interval>5m</interval>
+                    <day-of-week>
+                        <weekday>Sunday</weekday>
+                        <weekday>Wednesday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Monday</weekday>
+                        <weekday>Friday</weekday>
+                        <weekday>Saturday</weekday>
+                    </day-of-week>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+
 </jobs>

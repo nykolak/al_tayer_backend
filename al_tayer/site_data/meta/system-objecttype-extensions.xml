@@ -4876,6 +4876,20 @@
                     </value-definition>
                 </value-definitions>
             </attribute-definition>
+            <attribute-definition attribute-id="clientPassword">
+                <display-name xml:lang="x-default">Client Password</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="clientUsername">
+                <display-name xml:lang="x-default">Client Username</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
             <attribute-group group-id="Storefront Configs">
@@ -4885,6 +4899,11 @@
                 <attribute attribute-id="countryCode"/>
                 <attribute attribute-id="customerServiceEmail"/>
                 <attribute attribute-id="mapAPI"/>
+            </attribute-group>
+            <attribute-group group-id="Client Details">
+                <display-name xml:lang="x-default">Client Details</display-name>
+                <attribute attribute-id="clientUsername"/>
+                <attribute attribute-id="clientPassword"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
